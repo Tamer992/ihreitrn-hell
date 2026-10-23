@@ -1,0 +1,11 @@
+---
+// Die Adresse steht nicht im Quelltext. Das Skript setzt sie im Browser zusammen,
+// ohne Skript steht „kontakt [at] ihreitrn.de“ da.
+import { post } from '../daten';
+
+interface Props {
+  klasse?: string;
+}
+const { klasse } = Astro.props;
+---
+<a class={klasse} href="/kontakt" data-post={post.name} data-bereich={post.bereich}>{post.name} [at] {post.bereich}</a>

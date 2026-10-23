@@ -1,0 +1,110 @@
+---
+import Seite from '../layouts/Seite.astro';
+import Seitenkopf from '../components/Seitenkopf.astro';
+import Kontakt from '../components/Kontakt.astro';
+import Fragen from '../components/Fragen.astro';
+import { fragenDaten, type Frage } from '../fragen';
+import { anfahrt } from '../daten';
+
+const beispiele = [
+  { was: 'Neuen Laptop oder PC einrichten', wie: 'Einrichten, Daten und Fotos übernehmen, Bedienung erklären', dauer: 'ca. 1 bis 2 Std.', betrag: '69 bis 138 €' },
+  { was: 'Drucker ins WLAN bringen', wie: 'Mit Einrichtung auf Handy und Tablet', dauer: 'ca. 1 Std.', betrag: 'ab 69 €' },
+  { was: 'WLAN wieder stabil machen', wie: 'Signal prüfen, Router einstellen, bei Bedarf Verstärker einrichten', dauer: 'ca. 1 bis 2 Std.', betrag: '69 bis 138 €' },
+  { was: 'Viren entfernen und Schutz einrichten', wie: 'Schadsoftware entfernen, System prüfen, Schutz einrichten', dauer: 'ca. 1 bis 2 Std.', betrag: '69 bis 138 €' },
+  { was: 'Smartphone oder Tablet einrichten', wie: 'Kontakte, Fotos und WhatsApp übernehmen, Bedienung anpassen', dauer: 'ca. 1 Std.', betrag: 'ab 69 €' },
+  { was: 'Fernsehbox einrichten', wie: 'MagentaTV oder Vodafone TV anschließen, Sender sortieren, Mediathek erklären', dauer: 'ca. 1 Std.', betrag: 'ab 69 €' },
+  { was: 'Kurze Hilfe per Fernwartung', wie: 'Eine Einstellung, ein Update, eine Frage', dauer: 'ab 15 Min.', betrag: 'ab 17,25 €' },
+];
+
+const fragen: Frage[] = [
+  { frage: 'Wie genau wird abgerechnet?', antwort: ['Vor Ort zählt die erste Stunde voll, das sind 69 €. Danach geht es in Viertelstunden zu 17,25 € weiter. Sind wir nach 70 Minuten fertig, rechne ich 75 Minuten ab, also 86,25 €. Per Fernwartung zählt schon die erste Viertelstunde.'] },
+  { frage: 'Wie ist die Anfahrt geregelt?', antwort: ['In Hemsbach ohne Pauschale. Außerhalb gilt die Staffel oben, bis 10 km 10 € und bis 25 km 15 €, einmal pro Termin. Bei Fernwartung fällt keine Anfahrt an.'] },
+  { frage: 'Muss ich vorher wissen, woran es liegt?', antwort: ['Nein. „Der Drucker druckt nicht mehr“ reicht völlig. Die Ursache zu finden ist meine Aufgabe.'] },
+  { frage: 'Was soll ich zum Termin bereithalten?', antwort: ['E-Mail-Adresse und Passwort, den WLAN-Schlüssel, die Zugangsdaten Ihres Internetanbieters sowie Apple-ID oder Google-Konto samt Passwort. Ohne diese Angaben lassen sich viele Konten nicht einrichten. Ich notiere und speichere nichts davon.'] },
+  { frage: 'Und wenn sich eine Reparatur nicht lohnt?', antwort: ['Dann sage ich Ihnen, welcher Weg sich lohnt. Abgerechnet wird nur die Zeit, die ich bis dahin gearbeitet habe.'] },
+  { frage: 'Rechnen Sie für Unternehmen netto ab?', antwort: ['Ja. Für Unternehmen gelten 69 € netto pro Stunde zuzüglich 19 % USt., die Umsatzsteuer steht gesondert auf der Rechnung. Für Privathaushalte sind die 69 € der Endpreis.'] },
+  { frage: 'Bar oder per Überweisung?', antwort: ['Bar vor Ort oder per Überweisung, wie es Ihnen lieber ist.'] },
+  { frage: 'Kommen Sie auch abends oder am Wochenende?', antwort: ['Ja. Termine gibt es täglich nach Absprache, auch abends und am Wochenende, zum gleichen Preis.'] },
+  { frage: 'Ich kenne mich mit Technik kaum aus. Ist das in Ordnung?', antwort: ['Ja, natürlich. Ich erkläre alles verständlich und so oft Sie möchten. Die wichtigsten Schritte schreibe ich Ihnen auf.'] },
+];
+---
+<Seite
+  titel="Preise · Ihre IT Rhein-Neckar"
+  beschreibung="69 € pro Stunde, für Unternehmen netto, für Privathaushalte inklusive MwSt. Danach Viertelstunden zu 17,25 €. In Hemsbach ohne Anfahrtspauschale, außerhalb 10 oder 15 €."
+  pfad="/preise"
+  daten={[fragenDaten(fragen)]}
+>
+  <Seitenkopf
+    titel="Ein Stundensatz für jeden Termin"
+    text="Abends und am Wochenende gilt derselbe Preis. Sie wissen vorher, womit Sie rechnen können."
+  />
+
+  <section class="abschnitt" aria-labelledby="t-stunde">
+    <p class="etikett">Stundensatz</p>
+    <div class="preise">
+      <div class="preis" data-einblenden>
+        <h2 id="t-stunde" class="visually-hidden">Stundensatz</h2>
+        <p class="preis__betrag">69 €</p>
+        <p class="preis__einheit">pro Stunde</p>
+        <p class="grau abstand-oben">Für Privathaushalte inklusive 19 % MwSt., für Unternehmen netto zuzüglich USt. Vor Ort zählt die erste Stunde voll, danach geht es in Viertelstunden zu 17,25 € weiter. Per Fernwartung rechne ich ab der ersten Viertelstunde ab.</p>
+      </div>
+      <ul class="eintraege" data-einblenden>
+        <li><h3>Erstberatung am Telefon</h3><p class="grau">Wir klären zuerst, was zu tun ist.</p></li>
+        <li><h3>Bestandsaufnahme für Unternehmen <span class="marke-klein">Kostenlos</span></h3><p class="grau">Mit schriftlichem Vorschlag und Preisrahmen, unverbindlich.</p></li>
+        <li><h3>Erklären gehört dazu</h3><p class="grau">Ich gehe erst, wenn Sie es allein können.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="nacht">
+    <section class="abschnitt" aria-labelledby="t-anfahrt">
+      <p class="etikett">Anfahrt</p>
+      <h2 id="t-anfahrt" class="abschnitt__titel" data-einblenden>Einmal pro Termin, egal wie lange er dauert</h2>
+      <p class="grau">Für Privathaushalte Endpreise inklusive MwSt., für Unternehmen netto zuzüglich MwSt.</p>
+      <table class="tabelle" data-einblenden>
+        <caption class="visually-hidden">Anfahrtspauschale nach Entfernung von Hemsbach</caption>
+        <tbody>
+          {anfahrt.map((a) => (
+            <tr>
+              <th scope="row">{a.zone}</th>
+              <td class="tabelle__text grau">{a.orte}</td>
+              <td>{a.betrag}</td>
+            </tr>
+          ))}
+          <tr>
+            <th scope="row">Fernwartung</th>
+            <td class="tabelle__text grau">Nur die Arbeitszeit, auf Ihren ausdrücklichen Wunsch.</td>
+            <td>keine Anfahrt</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <section class="abschnitt" aria-labelledby="t-beispiele">
+    <p class="etikett">Beispiele</p>
+    <h2 id="t-beispiele" class="abschnitt__titel" data-einblenden>Was ein Termin im Alltag ausmacht</h2>
+    <p class="grau">Erfahrungswerte für Privathaushalte. Für Unternehmen gelten die Beträge netto. Am Telefon nenne ich Ihnen eine Spanne für Ihr Anliegen.</p>
+    <table class="tabelle" data-einblenden>
+      <caption class="visually-hidden">Beispiele mit Dauer und Betrag</caption>
+      <tbody>
+        {beispiele.map((b) => (
+          <tr>
+            <th scope="row">{b.was}<span class="grau">{b.wie}</span></th>
+            <td class="tabelle__text grau">{b.dauer}</td>
+            <td>{b.betrag}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    <p class="hinweis grau abstand-oben">Material wie Festplatte, Kabel oder WLAN-Verstärker besprechen wir vorher, Sie entscheiden, ob Sie es selbst besorgen. Webseiten und größere Vorhaben gibt es zum Festpreis nach Angebot.</p>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="t-fragen">
+    <p class="etikett">Fragen</p>
+    <h2 id="t-fragen" class="abschnitt__titel" data-einblenden>Das werde ich oft gefragt</h2>
+    <Fragen liste={fragen} />
+  </section>
+
+  <Kontakt titel="Sagen Sie mir, worum es geht." text="Am Telefon klären wir in wenigen Minuten, was zu tun ist und womit Sie rechnen können." />
+</Seite>

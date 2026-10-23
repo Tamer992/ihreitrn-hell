@@ -1,0 +1,39 @@
+---
+// Eigene Strichzeichnungen mit einem blauen Detail. Zeichnen sich beim Hereinscrollen einmal.
+interface Props {
+  art: 'schild' | 'haus' | 'hoerer' | 'buero' | 'rechnung' | 'gespraech';
+}
+const { art } = Astro.props;
+
+const formen: Record<Props['art'], { strich: string; blau: string }> = {
+  schild: {
+    strich: 'M32 6 L54 14 V30 C54 44 44 54 32 58 C20 54 10 44 10 30 V14 Z',
+    blau: 'M22 31 L29 38 L43 24',
+  },
+  haus: {
+    strich: 'M8 30 L32 10 L56 30 M14 25 V56 H50 V25',
+    blau: 'M24 40 C29 35 35 35 40 40 M27.5 44.5 C30.5 41.5 33.5 41.5 36.5 44.5 M32 49 h0.01',
+  },
+  hoerer: {
+    strich: 'M20 10 C14 10 10 15 10 21 C10 40 24 54 43 54 C49 54 54 50 54 44 L54 40 L44 35 L39 41 C31 38 26 33 23 25 L29 20 L24 10 Z',
+    blau: 'M38 10 C46 11 53 18 54 26 M37 17 C42 18 46 22 47 27',
+  },
+  buero: {
+    strich: 'M8 46 H56 M14 46 V22 H50 V46 M26 46 V54 M38 46 V54 M20 54 H44',
+    blau: 'M20 30 H34 M20 37 H44',
+  },
+  rechnung: {
+    strich: 'M16 6 H40 L50 16 V58 H16 Z M40 6 V16 H50',
+    blau: 'M23 30 H43 M23 38 H43 M23 46 H34',
+  },
+  gespraech: {
+    strich: 'M8 12 H44 V36 H24 L14 46 V36 H8 Z',
+    blau: 'M30 42 V48 H44 L52 56 V48 H56 V24 H48',
+  },
+};
+const f = formen[art];
+---
+<svg class="zeichen" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+  <path class="zeichen__strich" pathLength="1" d={f.strich} />
+  <path class="zeichen__blau" pathLength="1" d={f.blau} />
+</svg>

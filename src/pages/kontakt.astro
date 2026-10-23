@@ -1,0 +1,83 @@
+---
+import Seite from '../layouts/Seite.astro';
+import QrCode from '../components/QrCode.astro';
+import EMail from '../components/EMail.astro';
+import { telefon, whatsapp } from '../daten';
+---
+<Seite
+  titel="Kontakt · Ihre IT Rhein-Neckar"
+  beschreibung="IT-Hilfe anfragen: Telefon 0152 07872002, WhatsApp oder E-Mail. Telefonisch täglich von 8 bis 20 Uhr, Termine auch abends und am Wochenende."
+  pfad="/kontakt"
+>
+  <section class="abschnitt abschnitt--kontakt" aria-labelledby="t-kontakt" data-anrufbereich>
+    <div class="kontakt kontakt--seite">
+      <h1 id="t-kontakt">Rufen Sie an.</h1>
+      <a class="kontakt__nummer nummer" href={telefon.link}>{telefon.anzeige}</a>
+      <div class="kontakt__qr">
+        <QrCode ziel={telefon.link} klasse="qr" />
+        <p class="grau">Mit dem Handy scannen und anrufen</p>
+      </div>
+      <a class="knopf" href={telefon.link}>Jetzt anrufen</a>
+      <p class="grau">Telefonisch täglich von 8 bis 20 Uhr. In zwei Minuten klären wir, worum es geht und wann ich vorbeikomme. Bin ich bei einem Kunden, sprechen Sie auf die Mailbox. Ich rufe zurück, in der Regel innerhalb einer Stunde.</p>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="t-wege">
+    <p class="etikett">Schreiben</p>
+    <h2 id="t-wege" class="visually-hidden">Weitere Wege</h2>
+    <ul class="eintraege eintraege--zwei">
+      <li data-einblenden>
+        <h3>WhatsApp</h3>
+        <p class="grau">Praktisch, wenn Sie mir ein Foto vom Bildschirm oder vom Gerät schicken.</p>
+        <p class="abstand-oben"><a class="linie" href={whatsapp} rel="noopener noreferrer">Nachricht schreiben</a></p>
+      </li>
+      <li data-einblenden>
+        <h3>E-Mail</h3>
+        <p class="grau">Für ausführlichere Anliegen. Eine Antwort bekommen Sie innerhalb eines Tages.</p>
+        <p class="abstand-oben"><EMail klasse="linie" /></p>
+      </li>
+    </ul>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="t-bereit">
+    <p class="etikett">Vor dem Termin</p>
+    <div class="raster">
+      <div class="raster__links" data-einblenden>
+        <h2 id="t-bereit">Halten Sie das bereit</h2>
+        <p class="grau">Dann geht der Termin schneller. Ich notiere und speichere nichts davon, die Daten bleiben bei Ihnen.</p>
+      </div>
+      <ul class="eintraege raster__rechts raster__rechts--text">
+        <li data-einblenden><h3>E-Mail-Adresse und Passwort</h3></li>
+        <li data-einblenden><h3>WLAN-Schlüssel</h3><p class="grau">Er steht meist auf der Rückseite des Routers.</p></li>
+        <li data-einblenden><h3>Zugangsdaten des Internetanbieters</h3><p class="grau">Telekom, Vodafone, 1&amp;1 oder ein anderer Anbieter.</p></li>
+        <li data-einblenden><h3>Apple-ID oder Google-Konto</h3><p class="grau">Samt Passwort.</p></li>
+        <li data-einblenden><h3>Unterlagen</h3><p class="grau">Zu Gerät, Vertrag oder Fernsehbox.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="nacht">
+    <section class="abschnitt" aria-labelledby="t-telefon">
+      <p class="etikett">Am Telefon</p>
+      <div class="mitte" data-einblenden>
+        <h2 id="t-telefon">Das hilft mir beim ersten Gespräch.</h2>
+        <p class="grau">Um welches Gerät geht es, seit wann ist das so, und was steht auf dem Bildschirm? Und in welchem Ort wohnen Sie? Wenn Sie nicht alles wissen, rufen Sie trotzdem an.</p>
+        <p class="grau">Unternehmen sagen mir kurz, worum es geht, wie viele Arbeitsplätze es sind und wann es passt.</p>
+        <p class="hinweis grau abstand-oben">Ich rufe nie unaufgefordert an, um auf Ihren Computer zuzugreifen. Meldet sich jemand so bei Ihnen, legen Sie auf.</p>
+      </div>
+    </section>
+  </div>
+
+  <section class="abschnitt" aria-labelledby="t-gebiet">
+    <p class="etikett">Einsatzgebiet</p>
+    <div class="raster">
+      <div class="raster__links" data-einblenden>
+        <h2 id="t-gebiet">Hemsbach, Weinheim, Bensheim, Viernheim und Mannheim</h2>
+      </div>
+      <div class="raster__rechts raster__rechts--text" data-einblenden>
+        <p class="grau">Ich komme zu Ihnen nach Hause oder in den Betrieb. In Hemsbach ohne Anfahrtspauschale, in der Umgebung gilt eine Pauschale nach Entfernung. Ihr Ort ist nicht dabei? Fragen Sie mich.</p>
+        <p><a class="linie" href="/preise">Anfahrt und Preise</a></p>
+      </div>
+    </div>
+  </section>
+</Seite>

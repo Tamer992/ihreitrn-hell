@@ -1,0 +1,29 @@
+---
+// Kontakt-Abschnitt am Seitenende: Nummer groß, am Computer QR-Code, am Handy Knopf
+import QrCode from './QrCode.astro';
+import EMail from './EMail.astro';
+import { telefon, whatsapp } from '../daten';
+
+interface Props {
+  titel?: string;
+  text?: string;
+}
+const { titel = 'Rufen Sie an.', text = 'Telefonisch täglich von 8 bis 20 Uhr. Bin ich bei einem Kunden, rufe ich zurück.' } = Astro.props;
+---
+<section class="abschnitt abschnitt--kontakt" aria-labelledby="t-kontakt" data-anrufbereich>
+  <p class="etikett">Kontakt</p>
+  <div class="kontakt" data-einblenden>
+    <h2 id="t-kontakt">{titel}</h2>
+    <a class="kontakt__nummer nummer" href={telefon.link}>{telefon.anzeige}</a>
+    <div class="kontakt__qr">
+      <QrCode ziel={telefon.link} klasse="qr" />
+      <p class="grau">Mit dem Handy scannen und anrufen</p>
+    </div>
+    <a class="knopf" href={telefon.link}>Jetzt anrufen</a>
+    <p class="start__links kontakt__wege">
+      <a class="linie" href={whatsapp} rel="noopener noreferrer">WhatsApp</a>
+      <EMail klasse="linie" />
+    </p>
+    <p class="grau">{text}</p>
+  </div>
+</section>

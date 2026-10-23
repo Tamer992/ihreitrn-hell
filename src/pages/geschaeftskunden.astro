@@ -1,0 +1,136 @@
+---
+import Seite from '../layouts/Seite.astro';
+import Seitenkopf from '../components/Seitenkopf.astro';
+import Kontakt from '../components/Kontakt.astro';
+import Fragen from '../components/Fragen.astro';
+import { fragenDaten, type Frage } from '../fragen';
+import { telefon } from '../daten';
+
+const leistungen = [
+  { titel: 'Arbeitsplätze', text: 'Neue Rechner richte ich vollständig ein, neue Mitarbeitende sind am ersten Tag startklar. Verlässt jemand das Team, schließe ich die Zugänge.' },
+  { titel: 'Netzwerk und WLAN', text: 'WLAN in jedem Raum, ein eigenes Gästenetz für Ihre Kunden und eine Verkabelung, die man nachvollziehen kann.' },
+  { titel: 'Microsoft 365 und E-Mail', text: 'Postfächer, Kalender und gemeinsame Ablage, auch beim Umzug vom alten Anbieter. Ihr Team bekommt eine Einweisung.' },
+  { titel: 'Datensicherung und NAS', text: 'Die Sicherung läuft automatisch. Die Wiederherstellung spielen wir einmal gemeinsam durch, dann wissen Sie, dass sie funktioniert.' },
+  { titel: 'Server einrichten und warten', text: 'Dateiserver, NAS oder kleiner Server im Büro: eingerichtet, gewartet und dokumentiert.' },
+  { titel: 'Überwachung der Systeme', text: 'Datensicherung, Festplatten, Virenschutz und Zertifikate behalte ich im Blick. Fällt etwas auf, merke ich es oft vor Ihnen.' },
+  { titel: 'IT-Sicherheit', text: 'Virenschutz, Updates, Passwörter und klare Zugriffsrechte. Ihr Team lernt, gefälschte E-Mails zu erkennen.' },
+  { titel: 'Abläufe automatisieren', text: 'Wiederkehrende Arbeit wie Ablage, Freigaben oder Benachrichtigungen erledigt Microsoft 365 mit Power Automate von selbst.' },
+  { titel: 'Drucker und Multifunktionsgeräte', text: 'Im Netzwerk eingebunden. Scans landen direkt im Postfach oder im richtigen Ordner, auch vom Handy aus.' },
+  { titel: 'Zeiterfassung und E-Rechnung', text: 'Digitale Zeiterfassung am Terminal, am Rechner oder per App. XRechnung und ZUGFeRD richte ich in Ihrer Software ein und stimme mich mit Ihrem Steuerbüro ab.' },
+  { titel: 'Umzug und Neueröffnung', text: 'Ich ziehe Ihre Technik mit um. Internet und Netzwerk laufen vor dem ersten Arbeitstag.' },
+  { titel: 'Webseiten', text: 'Schnell, am Handy gut bedienbar, mit Impressum und Datenschutz nach deutschem Recht. Immer zum Festpreis.' },
+];
+
+const fragen: Frage[] = [
+  { frage: 'Ab welcher Betriebsgröße lohnt sich das?', antwort: ['Ab einem Arbeitsplatz. Ein Ein-Personen-Betrieb mit einem Rechner, einem Drucker und einem Postfach ist ein ganz normaler Auftrag. Nach oben liegt die sinnvolle Grenze bei einem Büro mit einer Handvoll Rechnern. Wird es größer, sage ich Ihnen das offen.'] },
+  { frage: 'Was gehört zur Bestandsaufnahme?', antwort: ['Ich komme in Ihren Betrieb und sehe mir an, was da ist und was Sie vorhaben. Das dauert meistens ein bis zwei Stunden. Danach bekommen Sie schriftlich einen Vorschlag mit Preisrahmen. Beides ist für Unternehmen kostenlos und unverbindlich. Abgerechnet wird erst, wenn Sie mich beauftragen.'] },
+  { frage: 'Rechnen Sie netto oder brutto ab?', antwort: ['Für Unternehmen gelten Nettopreise: 69 € pro Stunde zuzüglich 19 % Umsatzsteuer. Die Umsatzsteuer steht gesondert auf der Rechnung, Sie ziehen sie als Vorsteuer ab.'] },
+  { frage: 'Was gehört zur regelmäßigen Wartung?', antwort: ['Ein fester Termin in Ihrem Takt, meistens einmal im Quartal. Ich prüfe Updates für Windows und Programme, Virenschutz, Datensicherung mit Rückspieltest, Festplatten, Router und Access Points sowie Drucker. Dazu kommt die Reinigung der Geräte.', 'Danach bekommen Sie einen kurzen Bericht, was erledigt ist und was als Nächstes ansteht.'] },
+  { frage: 'Brauche ich dafür einen Wartungsvertrag?', antwort: ['Nein. Die Wartungstermine vereinbaren wir auch formlos nach Aufwand. Wer fest planen will, nimmt den Wartungsvertrag: ab 350 € netto im Monat mit drei Stunden inklusive, Mindestlaufzeit drei Monate, danach monatlich kündbar.'] },
+  { frage: 'Wie schnell sind Sie da?', antwort: ['Ein Termin klappt meistens am selben oder am nächsten Tag. Eilt es, sagen Sie es mir am Telefon. Sie erfahren dann verbindlich, wann ich da bin.'] },
+  { frage: 'Kommen Sie außerhalb der Öffnungszeiten?', antwort: ['Ja. Früh morgens, abends oder am Wochenende, zum gleichen Satz. Umbauten lege ich so, dass Ihr Betrieb tagsüber normal weiterläuft.'] },
+  { frage: 'Schließen Sie einen Vertrag zur Auftragsverarbeitung ab?', antwort: ['Ja. Wo ich mit personenbezogenen Daten in Berührung komme, etwa in einer Praxis oder Kanzlei, schließen wir einen Vertrag zur Auftragsverarbeitung nach Art. 28 DSGVO. Ihr eigenes Muster nehme ich ebenso.'] },
+  { frage: 'Übernehmen Sie Technik, die jemand anders eingerichtet hat?', antwort: ['Ja. Am Anfang steht die kostenlose Bestandsaufnahme: Was steht wo, welche Zugänge gibt es, wohin wird gesichert. Danach wissen Sie selbst, woran Sie sind, auch unabhängig von mir.'] },
+  { frage: 'Kaufen Sie die Geräte für uns ein?', antwort: ['Die Beschaffung übernehme ich: Geräte aussuchen, Angebote vergleichen, bestellen, Lieferung prüfen und einrichten. Bestellt wird auf Ihren Namen, so laufen Rechnung, Garantie und Gewährleistung direkt zwischen Ihnen und dem Händler.', 'Dafür gilt der normale Stundensatz, bei größeren Bestellungen eine feste Pauschale. Ich verkaufe keine Hardware und verdiene an keiner Empfehlung mit.'] },
+];
+---
+<Seite
+  titel="IT-Service für Unternehmen in Hemsbach · Ihre IT Rhein-Neckar"
+  beschreibung="IT-Betreuung für Büro, Praxis, Kanzlei und Handwerk rund um Hemsbach: Arbeitsplätze, Netzwerk, Microsoft 365, Server, Wartung und Datensicherung. 69 € netto pro Stunde, Bestandsaufnahme kostenlos."
+  pfad="/geschaeftskunden"
+  daten={[fragenDaten(fragen)]}
+>
+  <Seitenkopf
+    titel="IT für Büro, Praxis und Betrieb"
+    text="Große Firmen haben eine IT-Abteilung. In kleinen Betrieben übernehme ich diese Rolle, ab dem ersten Arbeitsplatz. Für Arzt- und Zahnarztpraxen, Kanzleien und Steuerbüros, Handwerk, Läden, Gastronomie, Pflegedienste und Vereine."
+  >
+    <p class="start__links seitenkopf__links">
+      <a class="linie" href="#ablauf">So fangen wir an</a>
+      <a class="linie nummer" href={telefon.link}>{telefon.anzeige}</a>
+    </p>
+  </Seitenkopf>
+
+  <section class="abschnitt" aria-labelledby="t-leistungen">
+    <p class="etikett">Leistungen</p>
+    <h2 id="t-leistungen" class="abschnitt__titel" data-einblenden>Was ich für Sie übernehme</h2>
+    <p class="grau">Als einzelner Auftrag oder als laufende Betreuung. Sie haben immer denselben Ansprechpartner, am Telefon und vor Ort.</p>
+    <ul class="eintraege eintraege--drei">
+      {leistungen.map((l) => (
+        <li data-einblenden>
+          <h3>{l.titel}</h3>
+          <p class="grau">{l.text}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="abschnitt" id="ablauf" aria-labelledby="t-ablauf">
+    <p class="etikett">Ablauf</p>
+    <h2 id="t-ablauf" class="abschnitt__titel" data-einblenden>Erst ansehen, dann entscheiden</h2>
+    <ul class="eintraege eintraege--drei">
+      <li data-einblenden>
+        <h3>Bestandsaufnahme <span class="marke-klein">Kostenlos</span></h3>
+        <p class="grau">Ich komme in Ihren Betrieb und sehe mir an, was da ist und was Sie vorhaben. Meistens ein bis zwei Stunden.</p>
+      </li>
+      <li data-einblenden>
+        <h3>Vorschlag mit Preisrahmen <span class="marke-klein">Kostenlos</span></h3>
+        <p class="grau">Sie bekommen schriftlich, was ich empfehle, in welchem Preisrahmen es liegt und was warten kann. Unverbindlich, Sie entscheiden.</p>
+      </li>
+      <li data-einblenden>
+        <h3>Umsetzung und danach</h3>
+        <p class="grau">Umbauten lege ich außerhalb Ihrer Öffnungszeiten. Danach bleibe ich Ihr Ansprechpartner, ohne feste Laufzeit.</p>
+      </li>
+    </ul>
+  </section>
+
+  <div class="nacht">
+    <section class="abschnitt" aria-labelledby="t-preise">
+      <p class="etikett">Preise für Unternehmen</p>
+      <div class="preise">
+        <div class="preis" data-einblenden>
+          <h2 id="t-preise" class="visually-hidden">Preise für Unternehmen</h2>
+          <p class="preis__betrag">69 €</p>
+          <p class="preis__einheit">netto pro Stunde, zuzüglich 19 % USt.</p>
+          <p class="grau abstand-oben">Vor Ort zählt die erste Stunde voll, danach geht es in Viertelstunden zu 17,25 € netto weiter. Per Fernwartung rechne ich ab der ersten Viertelstunde ab. Abends und am Wochenende gilt derselbe Satz. Bezahlt wird per Überweisung innerhalb von 14 Tagen.</p>
+          <p class="grau abstand-oben">In Hemsbach komme ich ohne Anfahrtspauschale, außerhalb einmal pro Termin nach Entfernung. Ohne Vertrag gibt es keine Laufzeit und keinen Grundbetrag.</p>
+        </div>
+        <div class="preis" data-einblenden>
+          <p class="preis__betrag">ab 350 €</p>
+          <p class="preis__einheit">netto im Monat mit Wartungsvertrag</p>
+          <ul class="eintraege abstand-oben">
+            <li><h3>Drei Stunden inklusive</h3><p class="grau">Zum Beispiel für ein neues Postfach oder neue Mitarbeitende. Darüber hinaus 69 € netto pro Stunde.</p></li>
+            <li><h3>Wartung, Überwachung, Updates</h3><p class="grau">Ein Wartungstermin im Quartal mit Bericht. Windows, Programme, Router und Firewall halte ich aktuell, die Datensicherung prüfe ich mit Rückspieltest.</p></li>
+            <li><h3>Vorrang bei Störungen</h3><p class="grau">Vertragskunden kommen zuerst dran. Mindestlaufzeit drei Monate, danach monatlich kündbar.</p></li>
+          </ul>
+        </div>
+      </div>
+      <p class="hinweis grau abstand-oben">Für ein neues Netzwerk, einen Umzug oder die Einführung von Microsoft 365 bekommen Sie ein schriftliches Festpreisangebot.</p>
+    </section>
+  </div>
+
+  <section class="abschnitt" aria-labelledby="t-unterlagen">
+    <p class="etikett">Datenschutz und Unterlagen</p>
+    <ul class="eintraege eintraege--drei">
+      <li data-einblenden>
+        <h2 id="t-unterlagen" class="h3">Auftragsverarbeitung</h2>
+        <p class="grau">Wo ich mit personenbezogenen Daten in Berührung komme, schließen wir einen Vertrag nach Art. 28 DSGVO, bevor es losgeht.</p>
+      </li>
+      <li data-einblenden>
+        <h3>Dokumentation, die Ihnen gehört</h3>
+        <p class="grau">Zu jedem größeren Auftrag schreibe ich auf, was wo steht, welche Zugänge es gibt und wohin gesichert wird.</p>
+      </li>
+      <li data-einblenden>
+        <h3>Fernwartung nur mit Ihrer Freigabe</h3>
+        <p class="grau">Ich rufe nie unaufgefordert an. Meldet sich jemand so bei Ihnen oder im Team, legen Sie auf.</p>
+      </li>
+    </ul>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="t-fragen">
+    <p class="etikett">Fragen</p>
+    <h2 id="t-fragen" class="abschnitt__titel" data-einblenden>Was Unternehmen vorher wissen wollen</h2>
+    <Fragen liste={fragen} />
+  </section>
+
+  <Kontakt titel="Reden wir über Ihren Betrieb." text="Telefonisch täglich von 8 bis 20 Uhr. Termine lege ich auch außerhalb Ihrer Öffnungszeiten." />
+</Seite>

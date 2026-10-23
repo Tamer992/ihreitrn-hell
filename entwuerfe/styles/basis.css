@@ -1,0 +1,553 @@
+/* Richtung Hell-Ruhig. Drei Varianten über data-art am html-Element. */
+
+@font-face { font-family: 'Schibsted Grotesk'; src: url('/fonts/schibsted-grotesk-latin-wght-normal.woff2') format('woff2'); font-weight: 400 900; font-display: swap; }
+@font-face { font-family: 'Source Sans 3'; src: url('/fonts/source-sans-3-latin-wght-normal.woff2') format('woff2'); font-weight: 200 900; font-display: swap; }
+@font-face { font-family: 'Manrope'; src: url('/fonts/manrope-latin-wght-normal.woff2') format('woff2'); font-weight: 200 800; font-display: swap; }
+@font-face { font-family: 'Public Sans'; src: url('/fonts/public-sans-latin-wght-normal.woff2') format('woff2'); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: 'Familjen Grotesk'; src: url('/fonts/familjen-grotesk-latin-wght-normal.woff2') format('woff2'); font-weight: 400 700; font-display: swap; }
+@font-face { font-family: 'Figtree'; src: url('/fonts/figtree-latin-wght-normal.woff2') format('woff2'); font-weight: 300 900; font-display: swap; }
+
+:root {
+  --breite: 76rem;
+  --rand: clamp(1rem, 4vw, 2.5rem);
+  --radius: 5px;
+  --anruf-breite: 25rem;
+  --schnell: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  --silber-tief: #8b949e;
+  --silber: #c6ccd3;
+  --silber-licht: #f4f6f8;
+  --k-schatten: #2a3644;
+}
+
+/* A · Stahl: Schibsted Grotesk + Source Sans 3, Stahlblau */
+[data-art='a'] {
+  --grund: #f4f5f3;
+  --flaeche: #ebedeb;
+  --schrift: #1b2632;
+  --schrift-2: #44505c;
+  --linie: #d3d7d9;
+  --blau: #234f86;
+  --blau-tief: #15345c;
+  --blau-hell: #9bbbe0;
+  --kopf-schrift: 'Schibsted Grotesk', system-ui, sans-serif;
+  --text-schrift: 'Source Sans 3', system-ui, sans-serif;
+  --kopf-gewicht: 500;
+  --kopf-laufweite: -0.022em;
+  --kopf-zeile: 1.04;
+}
+
+/* B · Kobalt: Manrope + Public Sans, Kobaltblau */
+[data-art='b'] {
+  --grund: #f3f4f1;
+  --flaeche: #e9ebe7;
+  --schrift: #19233a;
+  --schrift-2: #454f5f;
+  --linie: #d2d5d3;
+  --blau: #25479a;
+  --blau-tief: #172d66;
+  --blau-hell: #a7bdee;
+  --kopf-schrift: 'Manrope', system-ui, sans-serif;
+  --text-schrift: 'Public Sans', system-ui, sans-serif;
+  --kopf-gewicht: 600;
+  --kopf-laufweite: -0.035em;
+  --kopf-zeile: 1.02;
+  --silber-tief: #7f8994;
+}
+
+/* C · Rauchblau: Familjen Grotesk + Figtree, graues Petrolblau */
+[data-art='c'] {
+  --grund: #f4f4f2;
+  --flaeche: #eaebe8;
+  --schrift: #1c2a35;
+  --schrift-2: #46525d;
+  --linie: #d4d7d7;
+  --blau: #2a5576;
+  --blau-tief: #1a3a52;
+  --blau-hell: #9fc0d6;
+  --kopf-schrift: 'Familjen Grotesk', system-ui, sans-serif;
+  --text-schrift: 'Figtree', system-ui, sans-serif;
+  --kopf-gewicht: 500;
+  --kopf-laufweite: -0.012em;
+  --kopf-zeile: 1.07;
+  --silber-tief: #9aa2ab;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--grund);
+  color: var(--schrift);
+  font-family: var(--text-schrift);
+  font-size: 1.125rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (min-width: 64em) {
+  body { font-size: 1.1875rem; }
+}
+@media (min-width: 90em) {
+  body { font-size: 1.25rem; }
+}
+
+img { display: block; max-width: 100%; height: auto; }
+
+h1, h2, h3 {
+  font-family: var(--kopf-schrift);
+  font-weight: var(--kopf-gewicht);
+  letter-spacing: var(--kopf-laufweite);
+  line-height: var(--kopf-zeile);
+  margin: 0;
+  text-wrap: balance;
+}
+
+p { margin: 0; }
+
+a { color: inherit; }
+
+:focus-visible {
+  outline: 3px solid var(--blau);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.rahmen {
+  width: min(var(--breite), 100% - 2 * var(--rand));
+  margin-inline: auto;
+}
+
+.nummer, .plakette__nummer, .knopf__nummer, .kopf__nummer {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.sprung {
+  position: absolute;
+  left: var(--rand);
+  top: -4rem;
+  z-index: 30;
+  padding: 0.6rem 1rem;
+  background: var(--schrift);
+  color: var(--grund);
+  border-radius: var(--radius);
+}
+.sprung:focus { top: 0.75rem; }
+
+/* ---------- Kopfzeile ---------- */
+.kopf {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--grund);
+  border-bottom: 1px solid var(--linie);
+}
+
+.kopf__innen {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  min-height: 4.5rem;
+}
+
+.marke {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  font-family: var(--kopf-schrift);
+  font-size: 1.125rem;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  min-height: 44px;
+}
+
+.marke__zeichen {
+  width: 1.75rem;
+  height: 1.75rem;
+  fill: none;
+  stroke: var(--silber-tief);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.marke__zeichen .marke__eins { stroke: var(--blau); stroke-width: 3.2; }
+
+.marke__stark { font-weight: 650; }
+
+.menue { margin-left: auto; display: none; }
+.menue ul {
+  display: flex;
+  gap: 1.6rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.menue a, .kopf__nummer {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  text-decoration: none;
+  font-size: 1rem;
+}
+.menue a:hover { text-decoration: underline; text-underline-offset: 0.3em; }
+
+.kopf__nummer {
+  display: none;
+  font-family: var(--kopf-schrift);
+  font-weight: 600;
+  font-size: 1.0625rem;
+  color: var(--blau);
+  padding-left: 1.6rem;
+  border-left: 1px solid var(--linie);
+}
+
+.handymenue { margin-left: auto; }
+.handymenue summary {
+  list-style: none;
+  cursor: pointer;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 1rem;
+  border: 1px solid var(--linie);
+  border-radius: var(--radius);
+  font-weight: 600;
+}
+.handymenue summary::-webkit-details-marker { display: none; }
+.handymenue ul {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  margin: 0;
+  padding: 0.5rem var(--rand) 1rem;
+  list-style: none;
+  background: var(--grund);
+  border-bottom: 1px solid var(--linie);
+}
+.handymenue li + li { border-top: 1px solid var(--linie); }
+.handymenue ul a {
+  display: flex;
+  align-items: center;
+  min-height: 52px;
+  text-decoration: none;
+  font-size: 1.125rem;
+}
+
+@media (min-width: 64em) {
+  .menue, .kopf__nummer { display: flex; }
+  .handymenue { display: none; }
+  .kopf__innen { min-height: 4.75rem; }
+}
+
+/* ---------- Start ---------- */
+.start {
+  overflow-x: clip;
+  padding-block: clamp(3rem, 7vw, 5.5rem) clamp(3.5rem, 7vw, 6rem);
+}
+
+.start__innen { position: relative; }
+
+.start__titel {
+  font-size: clamp(2rem, 1.2rem + 4.4vw, 4.25rem);
+  max-width: 11em;
+  position: relative;
+  z-index: 1;
+}
+
+.start__text {
+  margin-top: 1.5rem;
+  max-width: 36ch;
+  line-height: 1.5;
+  font-size: clamp(1.125rem, 1rem + 0.4vw, 1.3125rem);
+  color: var(--schrift-2);
+  position: relative;
+  z-index: 1;
+}
+
+.start__kontakt {
+  position: relative;
+  margin-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.anruf {
+  position: relative;
+  z-index: 1;
+}
+
+.knopf {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 4.25rem;
+  padding: 0.7rem 1.5rem;
+  border-radius: var(--radius);
+  color: #fff;
+  text-decoration: none;
+  font-family: var(--kopf-schrift);
+  font-weight: 600;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  background: linear-gradient(165deg, var(--blau) 0%, var(--blau) 45%, var(--blau-tief) 100%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.22), 0 10px 24px -14px var(--blau-tief);
+}
+.knopf::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.16), transparent 55%);
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+.knopf:hover::after { opacity: 1; }
+.knopf:active { transform: translateY(1px); }
+.knopf__nummer {
+  font-family: var(--text-schrift);
+  font-weight: 500;
+  font-size: 1rem;
+  color: #f3f6fa;
+}
+
+.plakette { display: none; }
+
+.start__weiter { margin-top: 1.75rem; position: relative; z-index: 1; }
+
+.textlink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.35em;
+}
+.textlink:hover { text-decoration-thickness: 2px; color: var(--blau); }
+
+/* Kabel: am Handy als Band über dem Knopf */
+.kabel {
+  display: block;
+  order: -1;
+  width: calc(100% + var(--rand));
+  height: 8.5rem;
+  margin-bottom: 0.25rem;
+}
+
+@media (min-width: 48em) {
+  .start__kontakt { flex-direction: row; align-items: center; }
+  .anruf { width: var(--anruf-breite); flex: none; }
+  .kabel {
+    position: absolute;
+    left: var(--anruf-breite);
+    width: calc(50% + 50vw - var(--anruf-breite));
+    height: 30rem;
+    top: calc(50% - 30rem * 0.7333);
+    margin: 0;
+    z-index: 0;
+  }
+}
+@media (min-width: 64em) {
+  .kabel { height: 34rem; top: calc(50% - 34rem * 0.7333); }
+  .start__kontakt { margin-top: 3.25rem; }
+}
+
+/* Computer mit Maus: Nummer groß zum Abschreiben plus QR-Code, kein Anrufknopf */
+@media (hover: hover) and (pointer: fine) {
+  .knopf { display: none; }
+  .plakette {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 1.1rem;
+    padding: 0.9rem 1.4rem 0.9rem 0.9rem;
+    border-radius: var(--radius);
+    color: #fff;
+    background: linear-gradient(165deg, var(--blau) 0%, var(--blau) 45%, var(--blau-tief) 100%);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.22), 0 14px 30px -18px var(--blau-tief);
+  }
+  .plakette__qr {
+    display: block;
+    width: 5.25rem;
+    height: 5.25rem;
+    padding: 0.4rem;
+    background: #f7f8f9;
+    border-radius: 3px;
+  }
+  .plakette__qr svg { display: block; width: 100%; height: 100%; }
+  .plakette__text { display: flex; flex-direction: column; }
+  .plakette__hinweis { font-size: 0.9375rem; color: #f3f6fa; }
+  .plakette__nummer {
+    font-family: var(--kopf-schrift);
+    font-weight: 600;
+    font-size: 1.85rem;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+  }
+}
+
+/* Kabel: Farben */
+.kabel path { fill: none; stroke-linecap: round; }
+.kabel__schatten { stroke: var(--k-schatten); opacity: 0.14; }
+.kabel__grund { stroke: var(--silber-tief); }
+.kabel__mitte { stroke: var(--silber); }
+.kabel__licht { stroke: var(--silber-licht); opacity: 0.95; }
+.kabel__strang--blau .kabel__grund, .kabel__eins .kabel__grund { stroke: var(--blau-tief); }
+.kabel__strang--blau .kabel__mitte, .kabel__eins .kabel__mitte { stroke: var(--blau); }
+.kabel__strang--blau .kabel__licht, .kabel__eins .kabel__licht { stroke: var(--blau-hell); opacity: 0.85; }
+.kabel__flach { stroke: var(--silber-tief); }
+.kabel__strang--blau .kabel__flach, .kabel__flach--eins { stroke: var(--blau); }
+.kabel__knoten-ring { stroke: var(--blau); }
+.kabel__knoten-kern { stroke: var(--grund); }
+.kabel__stop-hell { stop-color: var(--silber-licht); }
+.kabel__stop-mitte { stop-color: var(--silber); }
+.kabel__stop-tief { stop-color: var(--silber-tief); }
+.kabel__maske { transform: translateX(-100px); }
+
+/* ---------- Leistungen ---------- */
+.leistungen {
+  padding-block: clamp(4.5rem, 9vw, 8.5rem);
+  border-top: 1px solid var(--linie);
+}
+
+.leistungen__titel {
+  font-size: clamp(1.9rem, 1.2rem + 2.6vw, 3.25rem);
+  max-width: 16em;
+}
+
+.leistungen__raster {
+  margin-top: clamp(2.5rem, 5vw, 4.5rem);
+  display: grid;
+  gap: 3.5rem;
+}
+
+.feld__bild {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: var(--radius);
+  background: var(--flaeche);
+}
+.feld--privat .feld__bild { aspect-ratio: 4 / 3; }
+
+.feld__titel {
+  margin-top: 1.75rem;
+  font-size: clamp(1.4rem, 1.2rem + 0.7vw, 1.75rem);
+}
+
+.feld__text {
+  margin-top: 0.75rem;
+  color: var(--schrift-2);
+  max-width: 40ch;
+}
+
+.feld__liste {
+  list-style: none;
+  margin: 1.75rem 0 1.25rem;
+  padding: 0;
+  display: grid;
+  column-gap: 2rem;
+}
+.feld__liste li {
+  padding: 0.7rem 0;
+  border-top: 1px solid var(--linie);
+}
+
+@media (min-width: 40em) {
+  .feld__liste--zwei { grid-template-columns: 1fr 1fr; }
+}
+
+@media (min-width: 64em) {
+  .leistungen__raster {
+    grid-template-columns: 7fr 5fr;
+    gap: 0;
+  }
+  .feld--betrieb { padding-right: 3.5rem; border-right: 1px solid var(--linie); }
+  .feld--privat { padding-left: 3.5rem; padding-top: 6rem; }
+}
+
+/* ---------- Anrufleiste am Handy ---------- */
+.anrufleiste { display: none; }
+
+@media not ((hover: hover) and (pointer: fine)) {
+  body { padding-bottom: 4.5rem; }
+  .anrufleiste {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 25;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    padding-bottom: env(safe-area-inset-bottom);
+    background: var(--blau-tief);
+    transition: transform 300ms var(--schnell);
+  }
+  .anrufleiste a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 3.5rem;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .anrufleiste__wa { border-left: 1px solid rgb(255 255 255 / 0.2); }
+  .anrufleiste--wartet { transform: translateY(110%); }
+}
+
+/* ---------- Bewegung ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .start__titel, .start__text, .start__kontakt .anruf, .start__weiter {
+    animation: auftauchen 900ms var(--schnell) both;
+  }
+  .start__text { animation-delay: 70ms; }
+  .start__kontakt .anruf { animation-delay: 140ms; }
+  .start__weiter { animation-delay: 200ms; }
+
+  .kabel__maske { animation: kabelzug 1500ms cubic-bezier(0.25, 0.7, 0.2, 1) 200ms both; }
+
+  .js [data-einblenden] {
+    opacity: 0;
+    transform: translateY(1.25rem);
+    transition: opacity 900ms var(--schnell), transform 900ms var(--schnell);
+  }
+  .js [data-einblenden].sichtbar { opacity: 1; transform: none; }
+  .feld--privat[data-einblenden] { transition-delay: 90ms; }
+}
+
+@keyframes auftauchen {
+  from { opacity: 0; transform: translateY(1rem); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes kabelzug {
+  from { transform: translateX(1050px); }
+  to { transform: translateX(-100px); }
+}
+
+/* Entwurfsliste */
+.entwurfsliste { padding-block: 4rem; }
+.entwurfsliste li { margin-top: 1rem; }
+
+/* ---------- 3D-Fassung des Motivs (Test) ---------- */
+.szene {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+.szene ~ main { position: relative; z-index: 1; }
+.gl .kabel { visibility: hidden; }
+.gl .kabel__maske { animation: none; }

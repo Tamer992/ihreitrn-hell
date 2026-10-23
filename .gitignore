@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+pruefung/ergebnis/
+
+# Render-Zwischenstände des Chrom-Werkzeugs
+scripts/chrom/ausgabe/
+
+# Lokale Liste verbotener Wörter für die Build-Prüfung
+pruefung/verboten.txt

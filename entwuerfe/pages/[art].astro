@@ -1,0 +1,17 @@
+---
+import Entwurf from '../../layouts/Entwurf.astro';
+import Ausschnitt from '../../components/Ausschnitt.astro';
+
+export function getStaticPaths() {
+  return [
+    { params: { art: 'a' }, props: { name: 'Stahl' } },
+    { params: { art: 'b' }, props: { name: 'Kobalt' } },
+    { params: { art: 'c' }, props: { name: 'Rauchblau' } },
+  ];
+}
+const { art } = Astro.params as { art: 'a' | 'b' | 'c' };
+const { name } = Astro.props;
+---
+<Entwurf titel={`Entwurf ${name} · Ihre IT Rhein-Neckar`} art={art}>
+  <Ausschnitt art={art} />
+</Entwurf>

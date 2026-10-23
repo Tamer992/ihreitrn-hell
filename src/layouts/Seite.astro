@@ -1,0 +1,78 @@
+---
+import '../styles/seite.css';
+import Kopf from '../components/Kopf.astro';
+import Fuss from '../components/Fuss.astro';
+import { ENTWURF, telefon, anschrift, orteSchema } from '../daten';
+
+interface Props {
+  titel: string;
+  beschreibung: string;
+  pfad: string;
+  ueberBild?: boolean;
+  daten?: object[];
+}
+const { titel, beschreibung, pfad, ueberBild = false, daten = [] } = Astro.props;
+const adresse = pfad === '/' ? 'https://ihreitrn.de/' : `https://ihreitrn.de${pfad}`;
+
+const betrieb = {
+  '@context': 'https://schema.org',
+  '@type': 'ComputerRepair',
+  '@id': 'https://ihreitrn.de/#betrieb',
+  name: 'Ihre IT Rhein-Neckar',
+  description: 'IT-Service vor Ort für Büro, Praxis und Betrieb und IT-Hilfe für zu Hause in Hemsbach und an der Bergstraße.',
+  url: 'https://ihreitrn.de/',
+  telephone: telefon.international,
+  founder: { '@type': 'Person', name: anschrift.name },
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: anschrift.strasse,
+    postalCode: anschrift.plz,
+    addressLocality: anschrift.ort,
+    addressCountry: 'DE',
+  },
+  areaServed: orteSchema.map((o) => ({ '@type': 'City', name: o })),
+  openingHoursSpecification: [{
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    opens: '08:00',
+    closes: '20:00',
+  }],
+  priceRange: '69 € pro Stunde',
+};
+const alleDaten = pfad === '/' ? [betrieb, ...daten] : daten;
+---
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {ENTWURF && <meta name="robots" content="noindex, nofollow" />}
+    <title>{titel}</title>
+    <meta name="description" content={beschreibung} />
+    <link rel="canonical" href={adresse} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:title" content={titel} />
+    <meta property="og:description" content={beschreibung} />
+    <meta property="og:url" content={adresse} />
+    <meta property="og:image" content="https://ihreitrn.de/bilder/teilen.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Ein Ansprechpartner für Ihre ganze IT. IT-Service vor Ort in Hemsbach, Telefon 0152 07872002" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#fcfcfb" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preload" href="/fonts/instrument-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <script is:inline src="/js/seite.js"></script>
+    {alleDaten.map((d) => <script type="application/ld+json" set:html={JSON.stringify(d)} />)}
+  </head>
+  <body>
+    <Kopf ueberBild={ueberBild} aktuell={pfad} />
+    <main id="inhalt">
+      <slot />
+    </main>
+    <Fuss />
+  </body>
+</html>

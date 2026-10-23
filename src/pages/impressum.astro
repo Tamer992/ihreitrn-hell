@@ -1,0 +1,49 @@
+---
+// Inhalt von der Live-Seite übernommen (Stand Oktober 2026). Angepasst: Schriftarten und Bildnachweis an die neue Seite.
+import Seite from '../layouts/Seite.astro';
+import EMail from '../components/EMail.astro';
+import { telefon } from '../daten';
+---
+<Seite titel="Impressum · Ihre IT Rhein-Neckar" beschreibung="Impressum von Ihre IT Rhein-Neckar, Tamer Kumaru, Hemsbach." pfad="/impressum">
+  <header class="seitenkopf seitenkopf--text">
+    <div class="seitenkopf__inhalt">
+      <h1>Impressum</h1>
+      <p class="grau seitenkopf__text">Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG).</p>
+    </div>
+  </header>
+
+  <article class="rechtstext">
+    <h2>Diensteanbieter</h2>
+    <p>Tamer Kumaru<br />Ihre IT Rhein-Neckar<br />Tilsiter Straße 30<br />69502 Hemsbach<br />Deutschland</p>
+
+    <h2>Kontakt</h2>
+    <p>Telefon: <a class="nummer" href={telefon.link}>{telefon.anzeige}</a><br />E-Mail: <EMail /><br />Internet: ihreitrn.de</p>
+
+    <h2>Unternehmensform</h2>
+    <p>Einzelunternehmen. „Ihre IT Rhein-Neckar“ ist eine Geschäftsbezeichnung, keine eingetragene Firma. Eine Eintragung ins Handelsregister besteht nicht.</p>
+
+    <h2>Umsatzsteuer</h2>
+    <p>Die Leistungen unterliegen der Regelbesteuerung. Die Umsatzsteuer wird berechnet und in Rechnungen gesondert ausgewiesen.</p>
+    <p>Die für Privatkunden genannten Preise sind Endpreise inklusive 19 % Umsatzsteuer. Die für Geschäftskunden genannten Preise sind Nettopreise; die Umsatzsteuer kommt hinzu und wird auf der Rechnung gesondert ausgewiesen. Bei jedem Preis auf dieser Website ist angegeben, welche der beiden Angaben gemeint ist.</p>
+
+    <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+    <p>Tamer Kumaru<br />Tilsiter Straße 30<br />69502 Hemsbach</p>
+
+    <h2>Verbraucherstreitbeilegung</h2>
+    <p>Die Europäische Kommission hat ihre Plattform zur Online-Streitbeilegung (OS) zum 20. Juli 2025 eingestellt; ein Verweis darauf entfällt daher. Ich bin nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen (§ 36 Verbraucherstreit&shy;beilegungsgesetz).</p>
+
+    <h2>Haftung für Inhalte und Links</h2>
+    <p>Für eigene Inhalte bin ich nach § 7 Abs. 1 DDG verantwortlich. Für die Inhalte verlinkter Websites ist deren Anbieter verantwortlich. Erfahre ich von einem Rechtsverstoß auf dieser Seite oder in einem verlinkten Angebot, entferne ich den Inhalt bzw. den Link umgehend.</p>
+
+    <h2>Urheberrecht</h2>
+    <p>Texte und Gestaltung dieser Website unterliegen dem deutschen Urheberrecht. Wer sie über die gesetzlichen Grenzen hinaus verwenden möchte, braucht meine schriftliche Zustimmung.</p>
+
+    <h2>Bildnachweis</h2>
+    <p>Die Kabel-Grafiken auf dieser Website sind eigene Arbeiten. Porträt: <span class="platzhalter">[FEHLT: Bildrechte Porträt, Fotograf oder Studio]</span></p>
+
+    <h2>Verwendete Schriftart</h2>
+    <p>Diese Website verwendet die Schriftart Instrument Sans, die unter der SIL Open Font License 1.1 steht. Die Schriftdatei wird ausschließlich vom eigenen Server geladen; eine Verbindung zu externen Anbietern besteht nicht.</p>
+
+    <p class="grau">Stand: Oktober 2026</p>
+  </article>
+</Seite>

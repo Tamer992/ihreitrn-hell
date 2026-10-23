@@ -1,0 +1,119 @@
+---
+import Seite from '../layouts/Seite.astro';
+import Kontakt from '../components/Kontakt.astro';
+import Zeichen from '../components/Zeichen.astro';
+import { telefon } from '../daten';
+
+const betrieb = [
+  { titel: 'Arbeitsplätze und Netzwerk', text: 'Neue Rechner sind am ersten Tag startklar. Das WLAN reicht in jeden Raum, mit eigenem Gästenetz für Ihre Kunden.' },
+  { titel: 'Microsoft 365 und Datensicherung', text: 'Postfächer, Kalender und gemeinsame Ablage. Die Sicherung testen wir einmal zusammen.' },
+  { titel: 'Bestandsaufnahme vor Ort', marke: 'Kostenlos', text: 'Ich sehe mir Ihre IT an. Danach bekommen Sie schriftlich einen Vorschlag mit Preisrahmen.' },
+  { titel: 'Server, Wartung und Abläufe', text: 'Regelmäßige Wartung mit kurzem Bericht. Wiederkehrende Arbeit automatisiere ich mit Microsoft 365.' },
+];
+---
+<Seite
+  titel="Ihre IT Rhein-Neckar · IT-Service vor Ort in Hemsbach"
+  beschreibung="IT-Betreuung für Büro, Praxis und Betrieb und IT-Hilfe für zu Hause, direkt vor Ort in Hemsbach und an der Bergstraße. 69 € pro Stunde, in Hemsbach ohne Anfahrtspauschale."
+  pfad="/"
+  ueberBild
+>
+  <section class="start" aria-labelledby="start-titel">
+    <picture class="start__bild">
+      <source media="(max-width: 40em)" type="image/webp" srcset="/bilder/chrom/kabel-hoch-600.webp 600w, /bilder/chrom/kabel-hoch-1000.webp 1000w" sizes="100vw" />
+      <source type="image/webp" srcset="/bilder/chrom/kabel-1440.webp 1440w, /bilder/chrom/kabel-2400.webp 2400w" sizes="100vw" />
+      <img src="/bilder/chrom/kabel-1440.webp" alt="" width="1440" height="900" fetchpriority="high" decoding="async" />
+    </picture>
+    <div class="start__text">
+      <h1 id="start-titel">Ein Ansprechpartner für Ihre ganze IT.</h1>
+      <p class="start__links">
+        <a class="linie" href="#unternehmen">Leistungen ansehen</a>
+        <a class="linie nummer" href={telefon.link}>{telefon.anzeige}</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="abschnitt abschnitt--voll" id="unternehmen" aria-labelledby="t-unternehmen">
+    <p class="etikett">Unternehmen</p>
+    <div class="raster">
+      <div class="raster__links" data-einblenden>
+        <h2 id="t-unternehmen">IT für Büro, Praxis und Betrieb</h2>
+        <p class="grau">Sie haben keine eigene IT-Abteilung? Diese Aufgabe übernehme ich, ab dem ersten Arbeitsplatz. Für Arzt- und Zahnarztpraxen, Kanzleien, Handwerk und Läden rund um Hemsbach.</p>
+        <p><a class="linie" href="/geschaeftskunden">Alles für Unternehmen</a></p>
+      </div>
+      <ul class="liste raster__rechts">
+        {betrieb.map((b) => (
+          <li data-einblenden>
+            <h3>{b.titel}{b.marke && <span class="marke-klein">{b.marke}</span>}</h3>
+            <p class="grau">{b.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="abschnitt abschnitt--voll" id="privat" aria-labelledby="t-privat">
+    <p class="etikett">Privatkunden</p>
+    <div class="privat__kopf" data-einblenden>
+      <h2 id="t-privat">Für Sie zu Hause</h2>
+      <p class="grau">Ich komme zu Ihnen, richte alles ein und erkläre in Ruhe, bis es sitzt.</p>
+    </div>
+    <picture class="band" aria-hidden="true">
+      <source type="image/webp" srcset="/bilder/chrom/kabel-1440.webp 1440w, /bilder/chrom/kabel-2400.webp 2400w" sizes="100vw" />
+      <img src="/bilder/chrom/kabel-1440.webp" alt="" width="1440" height="900" loading="lazy" decoding="async" />
+    </picture>
+    <div class="zwei">
+      <div data-einblenden>
+        <h3>Computer, Drucker und WLAN</h3>
+        <p class="grau">Neue Geräte richte ich ein, langsame mache ich wieder schnell, und der Drucker druckt danach auch vom Handy.</p>
+      </div>
+      <div data-einblenden>
+        <h3>Handy, Tablet und Fernseher</h3>
+        <p class="grau">Kontakte und Fotos ziehen auf das neue Gerät um, die Sender stehen in Ihrer Reihenfolge.</p>
+        <p class="abstand-oben"><a class="linie" href="/leistungen">Alles für Privatkunden</a></p>
+      </div>
+    </div>
+  </section>
+
+  <div class="nacht">
+    <section class="abschnitt abschnitt--voll abschnitt--vor-ort" aria-labelledby="t-vor-ort">
+      <picture class="nacht__bild" aria-hidden="true">
+        <source type="image/webp" srcset="/bilder/chrom/kabel-nacht-1440.webp 1440w, /bilder/chrom/kabel-nacht-2400.webp 2400w" sizes="100vw" />
+        <img src="/bilder/chrom/kabel-nacht-1440.webp" alt="" width="1440" height="900" loading="lazy" decoding="async" />
+      </picture>
+      <p class="etikett">Vor Ort</p>
+      <div class="mitte" data-einblenden>
+        <h2 id="t-vor-ort">Ich komme zu Ihnen. In Hemsbach ohne Anfahrtspauschale.</h2>
+        <p class="grau">Bis 10 Kilometer berechne ich einmal 10 €, bis 25 Kilometer 15 €, Bensheim liegt in diesem Bereich. Die Stunde liegt bei 69 €, für Privathaushalte inklusive MwSt., für Unternehmen netto. Abends und am Wochenende gilt derselbe Satz.</p>
+        <p class="start__links mitte__links">
+          <a class="linie" href="/kontakt">Termin vereinbaren</a>
+          <a class="linie" href="/preise">Alle Preise</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="abschnitt abschnitt--voll" aria-labelledby="t-werte">
+      <p class="etikett">So arbeite ich</p>
+      <h2 id="t-werte" class="breit-12" data-einblenden>Ein Ansprechpartner, der vorbeikommt und erklärt.</h2>
+      <ul class="drei">
+        <li data-einblenden>
+          <Zeichen art="schild" />
+          <h3>Sicher eingerichtet</h3>
+          <p class="grau">Virenschutz, Updates und Passwörter stelle ich so ein, dass Sie nichts nachstellen müssen.</p>
+        </li>
+        <li data-einblenden>
+          <Zeichen art="haus" />
+          <h3>Vor Ort bei Ihnen</h3>
+          <p class="grau">Ich komme ins Büro oder nach Hause. Fernwartung nur, wenn Sie es ausdrücklich möchten.</p>
+        </li>
+        <li data-einblenden>
+          <Zeichen art="hoerer" />
+          <h3>Geduld am Telefon</h3>
+          <p class="grau">Rufen Sie auch zwei Tage später noch einmal an. Erklären gehört zum Termin dazu.</p>
+        </li>
+      </ul>
+      <p class="abstand-oben"><a class="linie" href="/ueber-mich">Über mich</a></p>
+    </section>
+  </div>
+
+  <Kontakt />
+</Seite>

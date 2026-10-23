@@ -1,0 +1,22 @@
+---
+import '../styles/basis.css';
+
+interface Props {
+  titel: string;
+  art: 'a' | 'b' | 'c';
+}
+const { titel, art } = Astro.props;
+---
+<!doctype html>
+<html lang="de" data-art={art}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{titel}</title>
+    <script is:inline src="/js/seite.js"></script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,23 @@
+---
+// Kopf einer Unterseite: Überschrift und Einleitung links, ein Ausschnitt der Kabel-Grafik rechts
+interface Props {
+  titel: string;
+  text: string;
+  bild?: 'hell' | 'hoch';
+}
+const { titel, text, bild = 'hell' } = Astro.props;
+const quelle = bild === 'hoch'
+  ? { klein: '/bilder/chrom/kabel-hoch-600.webp', gross: '/bilder/chrom/kabel-hoch-1000.webp', b: 600, h: 900, kb: 600, gb: 1000 }
+  : { klein: '/bilder/chrom/kabel-1440.webp', gross: '/bilder/chrom/kabel-2400.webp', b: 1440, h: 900, kb: 1440, gb: 2400 };
+---
+<header class="seitenkopf">
+  <div class="seitenkopf__inhalt">
+    <h1>{titel}</h1>
+    <p class="grau seitenkopf__text">{text}</p>
+    <slot />
+  </div>
+  <picture class="seitenkopf__bild" aria-hidden="true">
+    <source type="image/webp" srcset={`${quelle.klein} ${quelle.kb}w, ${quelle.gross} ${quelle.gb}w`} sizes="(min-width: 64em) 50vw, 100vw" />
+    <img src={quelle.klein} alt="" width={quelle.b} height={quelle.h} decoding="async" fetchpriority="high" />
+  </picture>
+</header>

@@ -1,0 +1,22 @@
+---
+import Seite from '../layouts/Seite.astro';
+import { telefon } from '../daten';
+---
+<Seite titel="Seite nicht gefunden · Ihre IT Rhein-Neckar" beschreibung="Diese Seite gibt es nicht." pfad="/404">
+  <header class="seitenkopf">
+    <div class="seitenkopf__inhalt">
+      <h1>Diese Seite gibt es nicht.</h1>
+      <p class="grau seitenkopf__text">Vermutlich ein alter Link oder ein Tippfehler in der Adresse. Hier geht es weiter:</p>
+      <p class="start__links seitenkopf__links">
+        <a class="linie" href="/">Startseite</a>
+        <a class="linie" href="/geschaeftskunden">Unternehmen</a>
+        <a class="linie" href="/leistungen">Privatkunden</a>
+        <a class="linie nummer" href={telefon.link}>{telefon.anzeige}</a>
+      </p>
+    </div>
+    <picture class="seitenkopf__bild" aria-hidden="true">
+      <source type="image/webp" srcset="/bilder/chrom/kabel-1440.webp 1440w, /bilder/chrom/kabel-2400.webp 2400w" sizes="(min-width: 64em) 50vw, 100vw" />
+      <img src="/bilder/chrom/kabel-1440.webp" alt="" width="1440" height="900" decoding="async" />
+    </picture>
+  </header>
+</Seite>

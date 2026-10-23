@@ -1,0 +1,96 @@
+---
+// Kabelstränge laufen von rechts zusammen und werden zu einer Linie.
+// Botschaft: Alles läuft bei einem Ansprechpartner zusammen.
+// Die Zeichnung wird gestreckt (preserveAspectRatio="none"), die Strichbreiten
+// bleiben dabei in Bildschirmpixeln (vector-effect), damit die Kabel nicht verzerren.
+interface Props {
+  art: 'a' | 'b' | 'c';
+}
+const { art } = Astro.props;
+
+const B = 1000;
+const H = 600;
+const zielY = 440;
+
+const arten = {
+  // A: sieben feine Stränge, eng gebündelt, mit Hülse
+  a: { n: 7, breite: 7, abstand: 7.6, zielX: 430, huelse: 46, linie: 12, start: [70, 560], bogen: 300, blauIndex: 3, flach: false },
+  // B: vier kräftige Rohre, weite Bögen
+  b: { n: 4, breite: 12, abstand: 12.5, zielX: 470, huelse: 50, linie: 16, start: [110, 575], bogen: 380, blauIndex: 1, flach: false },
+  // C: dreizehn Haarlinien, eher gezeichnet als plastisch
+  c: { n: 13, breite: 1.6, abstand: 3.2, zielX: 400, huelse: 0, linie: 3, start: [20, 590], bogen: 260, blauIndex: 6, flach: true },
+} as const;
+
+const k = arten[art];
+const mitte = (k.n - 1) / 2;
+
+const straenge = Array.from({ length: k.n }, (_, i) => {
+  const t = k.n === 1 ? 0.5 : i / (k.n - 1);
+  // Startpunkte nicht gleichmäßig verteilen, sonst wirkt es wie ein Diagramm
+  const verlauf = Math.pow(t, art === 'b' ? 0.9 : 1.15);
+  const y0 = k.start[0] + (k.start[1] - k.start[0]) * verlauf;
+  const yEnde = zielY + (i - mitte) * k.abstand;
+  const c1x = B - k.bogen * (0.7 + 0.05 * ((i * 7) % 5));
+  const c2x = k.zielX + k.bogen * (0.55 + 0.04 * ((i * 3) % 4));
+  const d = `M${B + 40},${y0.toFixed(1)} C${c1x.toFixed(1)},${y0.toFixed(1)} ${c2x.toFixed(1)},${yEnde.toFixed(1)} ${k.zielX},${yEnde.toFixed(1)} L${k.zielX - k.huelse - 4},${yEnde.toFixed(1)}`;
+  return { d, blau: i === k.blauIndex };
+});
+
+const huelseX = k.zielX - k.huelse;
+const huelseHoehe = k.n * k.abstand + (k.flach ? 0 : 6);
+const linieD = `M-20,${zielY} L${huelseX + 2},${zielY}`;
+const id = `kabel-${art}`;
+---
+<svg class={`kabel kabel--${art}`} viewBox={`0 0 ${B} ${H}`} preserveAspectRatio="none" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id={`${id}-maskeverlauf`} x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#000" />
+      <stop offset="0.09" stop-color="#fff" />
+    </linearGradient>
+    <mask id={`${id}-maske`} maskUnits="userSpaceOnUse" x="-50" y="0" width="1150" height={H}>
+      <rect class="kabel__maske" x="0" y="0" width="1200" height={H} fill={`url(#${id}-maskeverlauf)`} />
+    </mask>
+    <linearGradient id={`${id}-huelse`} x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" class="kabel__stop-hell" />
+      <stop offset="0.35" class="kabel__stop-mitte" />
+      <stop offset="1" class="kabel__stop-tief" />
+    </linearGradient>
+  </defs>
+  <g mask={`url(#${id}-maske)`}>
+    {straenge.map((s) => (
+      <g class={s.blau ? 'kabel__strang kabel__strang--blau' : 'kabel__strang'}>
+        {k.flach ? (
+          <path d={s.d} class="kabel__flach" stroke-width={k.breite} vector-effect="non-scaling-stroke" />
+        ) : (
+          <>
+            <path d={s.d} class="kabel__schatten" stroke-width={k.breite * 1.25} transform={`translate(0 ${k.breite * 0.45})`} vector-effect="non-scaling-stroke" />
+            <path d={s.d} class="kabel__grund" stroke-width={k.breite} vector-effect="non-scaling-stroke" />
+            <path d={s.d} class="kabel__mitte" stroke-width={k.breite * 0.6} transform={`translate(0 ${-k.breite * 0.1})`} vector-effect="non-scaling-stroke" />
+            <path d={s.d} class="kabel__licht" stroke-width={k.breite * 0.2} transform={`translate(0 ${-k.breite * 0.24})`} vector-effect="non-scaling-stroke" />
+          </>
+        )}
+      </g>
+    ))}
+    {k.huelse > 0 && (
+      <rect class="kabel__huelse" x={huelseX} y={zielY - huelseHoehe / 2} width={k.huelse} height={huelseHoehe} rx="3" fill={`url(#${id}-huelse)`} />
+    )}
+    <g class="kabel__eins">
+      {k.flach ? (
+        <path d={linieD} class="kabel__flach kabel__flach--eins" stroke-width={k.linie} vector-effect="non-scaling-stroke" />
+      ) : (
+        <>
+          <path d={linieD} class="kabel__schatten" stroke-width={k.linie * 1.2} transform={`translate(0 ${k.linie * 0.4})`} vector-effect="non-scaling-stroke" />
+          <path d={linieD} class="kabel__grund" stroke-width={k.linie} vector-effect="non-scaling-stroke" />
+          <path d={linieD} class="kabel__mitte" stroke-width={k.linie * 0.6} transform={`translate(0 ${-k.linie * 0.1})`} vector-effect="non-scaling-stroke" />
+          <path d={linieD} class="kabel__licht" stroke-width={k.linie * 0.2} transform={`translate(0 ${-k.linie * 0.24})`} vector-effect="non-scaling-stroke" />
+        </>
+      )}
+    </g>
+    {k.flach && (
+      <g class="kabel__knoten">
+        <path d={`M${k.zielX - 1},${zielY} h0.01`} class="kabel__knoten-ring" stroke-width="11" vector-effect="non-scaling-stroke" />
+        <path d={`M${k.zielX - 1},${zielY} h0.01`} class="kabel__knoten-kern" stroke-width="5" vector-effect="non-scaling-stroke" />
+      </g>
+    )}
+  </g>
+</svg>

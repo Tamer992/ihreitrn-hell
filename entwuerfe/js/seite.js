@@ -1,0 +1,33 @@
+// Läuft im Seitenkopf: markiert, dass Skripte laufen, damit Einblendungen
+// nur dann vorbereitet werden. Ohne Skript ist alles sofort sichtbar.
+document.documentElement.classList.add('js');
+
+document.addEventListener('DOMContentLoaded', () => {
+  const ruhig = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Inhalte einblenden, sobald sie gut im Bild sind
+  const elemente = document.querySelectorAll('[data-einblenden]');
+  if (ruhig || !('IntersectionObserver' in window)) {
+    elemente.forEach((el) => el.classList.add('sichtbar'));
+  } else {
+    const beobachter = new IntersectionObserver((eintraege) => {
+      for (const e of eintraege) {
+        if (e.isIntersecting) {
+          e.target.classList.add('sichtbar');
+          beobachter.unobserve(e.target);
+        }
+      }
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.15 });
+    elemente.forEach((el) => beobachter.observe(el));
+  }
+
+  // Anrufleiste am Handy erst zeigen, wenn der Anrufknopf oben aus dem Bild ist
+  const bereich = document.querySelector('[data-anrufbereich]');
+  const leiste = document.querySelector('.anrufleiste');
+  if (bereich && leiste && 'IntersectionObserver' in window) {
+    leiste.classList.add('anrufleiste--wartet');
+    new IntersectionObserver(([e]) => {
+      leiste.classList.toggle('anrufleiste--wartet', e.isIntersecting);
+    }).observe(bereich);
+  }
+});

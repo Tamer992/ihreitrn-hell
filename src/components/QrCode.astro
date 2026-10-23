@@ -1,0 +1,11 @@
+---
+import QRCode from 'qrcode';
+
+interface Props {
+  ziel: string;
+  klasse?: string;
+}
+const { ziel, klasse } = Astro.props;
+const svg = await QRCode.toString(ziel, { type: 'svg', margin: 0, errorCorrectionLevel: 'M', color: { dark: '#1b2632', light: '#0000' } });
+---
+<span class={klasse} aria-hidden="true" set:html={svg} />

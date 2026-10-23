@@ -1,0 +1,19 @@
+---
+import { menue, telefon, whatsapp } from '../daten';
+---
+<footer class="fuss">
+  <nav class="fuss__gross" aria-label="Seiten">
+    {menue.map((m) => <a href={m.href}>{m.text}</a>)}
+  </nav>
+  <div class="fuss__klein">
+    <p>Ihre IT Rhein-Neckar · Tamer Kumaru · Hemsbach</p>
+    <p>Telefonisch täglich von 8 bis 20 Uhr: <a class="nummer" href={telefon.link}>{telefon.anzeige}</a></p>
+    <p><a href="/impressum">Impressum</a> · <a href="/datenschutz">Datenschutz</a></p>
+    <p class="grau">Diese Website setzt keine Cookies und verwendet keine Analyse-Werkzeuge.</p>
+  </div>
+</footer>
+
+<nav class="anrufleiste" aria-label="Anrufen oder WhatsApp">
+  <a href={telefon.link}>Anrufen <span class="nummer">{telefon.anzeige}</span></a>
+  <a href={whatsapp} rel="noopener noreferrer">WhatsApp</a>
+</nav>

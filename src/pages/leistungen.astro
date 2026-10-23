@@ -1,0 +1,115 @@
+---
+import Seite from '../layouts/Seite.astro';
+import Seitenkopf from '../components/Seitenkopf.astro';
+import Kontakt from '../components/Kontakt.astro';
+import { telefon } from '../daten';
+
+const gruppen = [
+  {
+    id: 'einrichten',
+    titel: 'Einrichten',
+    text: 'Sie haben etwas Neues gekauft? Ich richte es ein, übertrage Ihre Daten und zeige Ihnen, wie alles geht.',
+    punkte: [
+      { titel: 'Computer und Laptop', text: 'Windows und Ihre Programme. Dateien, Fotos und Lesezeichen ziehen vom alten Gerät mit um.' },
+      { titel: 'Tablet und Handy', text: 'iPad, Android-Tablet oder Smartphone: Kontakte, Fotos und WhatsApp kommen mit, die Schrift stelle ich so groß ein, dass Sie alles gut lesen.' },
+      { titel: 'E-Mail', text: 'Ihre E-Mails kommen auf Computer, Handy und Tablet an, auch nach einem Anbieterwechsel.' },
+      { titel: 'Drucker', text: 'Der Drucker kommt ins WLAN, das Scannen richte ich mit ein. Danach drucken Sie auch vom Handy.' },
+      { titel: 'Fernseher und Receiver', text: 'MagentaTV, Vodafone TV oder eine andere Box: anschließen, Sender sortieren, Aufnahme und Mediathek einrichten.' },
+      { titel: 'Zubehör', text: 'Monitor, Webcam oder Festplatte schließe ich an und teste alles mit Ihnen.' },
+    ],
+  },
+  {
+    id: 'reparieren',
+    titel: 'Reparieren und aufrüsten',
+    text: 'Bevor Sie neu kaufen: Oft rettet ein einziges neues Teil das Gerät. Lohnt es sich nicht, sage ich es Ihnen.',
+    punkte: [
+      { titel: 'PC und Laptop', text: 'Ich finde heraus, was dem Gerät fehlt, und nenne Ihnen vorher, ob sich die Reparatur rechnet.' },
+      { titel: 'Tablet und Smartphone', text: 'Zuerst sichere ich Ihre Daten, dann sehe ich mir das Gerät an.' },
+      { titel: 'Aufrüsten', text: 'Mit einer SSD und mehr Arbeitsspeicher wird ein älterer Rechner wieder spürbar schneller.' },
+      { titel: 'Reinigen', text: 'Ein sauberer Lüfter macht das Gerät wieder leise und kühl.' },
+    ],
+  },
+  {
+    id: 'pflegen',
+    titel: 'Wieder schnell machen',
+    text: 'Der Computer ist langsam, ein Programm startet nicht, das WLAN reicht nicht ins Schlafzimmer? Ich suche die Ursache und behebe sie.',
+    punkte: [
+      { titel: 'WLAN und Internet', text: 'Ich stelle den Router richtig ein und sorge dafür, dass das WLAN bis ins hintere Zimmer reicht.' },
+      { titel: 'Programme', text: 'Streikt ein Programm, finde ich heraus, woran es liegt, und bringe es wieder in Gang.' },
+      { titel: 'Updates und Aufräumen', text: 'Hängende Updates spiele ich ein und entferne, was den Computer bremst.' },
+    ],
+  },
+  {
+    id: 'sichern',
+    titel: 'Daten und Sicherheit',
+    text: 'Ihre Fotos und Dokumente gehen nicht verloren, und niemand Fremdes kommt an Ihre Daten.',
+    punkte: [
+      { titel: 'Viren entfernen', text: 'Viren und lästige Werbefenster entferne ich und richte einen guten Schutz ein.' },
+      { titel: 'Datensicherung', text: 'Die Sicherung läuft automatisch, auf eine Festplatte oder in die Cloud. Sie entscheiden.' },
+      { titel: 'Umzug auf ein neues Gerät', text: 'Fotos, Dokumente, Kontakte und E-Mails ziehen vollständig mit um.' },
+      { titel: 'Passwörter ordnen', text: 'Ich richte einen Passwort-Manager ein und zeige Ihnen, wie Sie ihn benutzen.' },
+    ],
+  },
+  {
+    id: 'beraten',
+    titel: 'Beraten',
+    text: 'Bevor Sie etwas kaufen, sage ich Ihnen, was Sie brauchen. Ich verkaufe keine Geräte und berate deshalb unabhängig.',
+    punkte: [
+      { titel: 'Kaufberatung', text: 'Welcher Laptop, welches Tablet, welcher Drucker passt zu Ihnen?' },
+      { titel: 'Fragen aus dem Alltag', text: 'Welcher Internetvertrag reicht? Brauche ich ein Virenschutzprogramm? Wie sichere ich meine Fotos?' },
+      { titel: 'Webseiten für Hobby und Verein', text: 'Eine schlichte, schnelle Seite in eigenem Design, ohne monatliche Gebühren.' },
+    ],
+  },
+];
+---
+<Seite
+  titel="IT-Hilfe für zu Hause in Hemsbach · Ihre IT Rhein-Neckar"
+  beschreibung="Computer, Drucker, WLAN, Handy und Fernseher einrichten, Viren entfernen, Daten sichern. IT-Hilfe direkt bei Ihnen zu Hause in Hemsbach, Weinheim und Umgebung."
+  pfad="/leistungen"
+>
+  <Seitenkopf
+    titel="IT-Hilfe für zu Hause"
+    text="Ich komme zu Ihnen nach Hause, richte ein, repariere und erkläre in Ruhe, bis alles sitzt. Für Privathaushalte und Senioren rund um Hemsbach."
+  >
+    <p class="start__links seitenkopf__links">
+      <a class="linie" href="/preise">Preise ansehen</a>
+      <a class="linie nummer" href={telefon.link}>{telefon.anzeige}</a>
+    </p>
+  </Seitenkopf>
+
+  <section class="abschnitt" aria-label="Leistungen für Privatkunden">
+    <p class="etikett">Leistungen</p>
+    {gruppen.map((g) => (
+      <div class="gruppe" id={g.id}>
+        <div class="gruppe__kopf" data-einblenden>
+          <h2>{g.titel}</h2>
+          <p class="grau">{g.text}</p>
+        </div>
+        <ul class="eintraege">
+          {g.punkte.map((p) => (
+            <li data-einblenden>
+              <h3>{p.titel}</h3>
+              <p class="grau">{p.text}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </section>
+
+  <div class="nacht">
+    <section class="abschnitt" aria-labelledby="t-vor-ort">
+      <p class="etikett">Vor Ort</p>
+      <div class="mitte" data-einblenden>
+        <h2 id="t-vor-ort">Ich komme zu Ihnen nach Hause.</h2>
+        <p class="grau">Die Stunde liegt bei 69 € inklusive MwSt., danach geht es in Viertelstunden zu 17,25 € weiter. In Hemsbach ohne Anfahrtspauschale.</p>
+        <p class="grau">Einstellungen und kurze Fragen erledige ich per Fernwartung, wenn Sie es ausdrücklich möchten. Die Verbindung startet nur mit Ihrer Freigabe.</p>
+        <p class="start__links mitte__links">
+          <a class="linie" href="/preise">Alle Preise und Beispiele</a>
+        </p>
+      </div>
+    </section>
+  </div>
+
+  <Kontakt titel="Ihr Anliegen ist nicht dabei?" text="Fragen Sie mich trotzdem. Ich sage Ihnen, ob ich helfen kann, und sonst, wer Ihnen weiterhilft." />
+</Seite>

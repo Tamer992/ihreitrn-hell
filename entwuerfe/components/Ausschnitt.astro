@@ -1,0 +1,130 @@
+---
+import Kabel from './Kabel.astro';
+import QrCode from './QrCode.astro';
+
+interface Props {
+  art: 'a' | 'b' | 'c';
+}
+const { art } = Astro.props;
+
+const telefon = { anzeige: '0152 07872002', link: 'tel:+4915207872002' };
+const whatsapp = 'https://wa.me/4915207872002';
+
+const menue = [
+  { text: 'Unternehmen', href: '#unternehmen' },
+  { text: 'Privatkunden', href: '#privat' },
+  { text: 'Preise', href: '#' },
+  { text: 'Über mich', href: '#' },
+  { text: 'Kontakt', href: '#' },
+];
+
+const betrieb = [
+  'Arbeitsplätze und neue Mitarbeitende',
+  'Netzwerk und WLAN',
+  'Microsoft 365 und E-Mail',
+  'Datensicherung und NAS',
+  'Server einrichten und warten',
+  'Virenschutz, Updates, Zugriffsrechte',
+  'Abläufe automatisieren',
+  'Wartung mit kurzem Bericht',
+];
+
+const privat = [
+  'Computer und Laptop',
+  'Drucker und Scanner',
+  'WLAN und Router',
+  'Handy und Tablet',
+  'Fernseher und Receiver',
+  'Fotos und Daten sichern',
+];
+---
+<a class="sprung" href="#inhalt">Zum Inhalt springen</a>
+
+<header class="kopf">
+  <div class="rahmen kopf__innen">
+    <a class="marke" href="#" aria-label="Ihre IT Rhein-Neckar, Startseite">
+      <svg class="marke__zeichen" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+        <path d="M31 6 C22 6 20 16 14 16 M31 16 H14 M31 26 C22 26 20 16 14 16" />
+        <path class="marke__eins" d="M14 16 H2" />
+      </svg>
+      <span class="marke__text"><span class="marke__stark">Ihre IT</span> Rhein-Neckar</span>
+    </a>
+    <nav class="menue" aria-label="Hauptmenü">
+      <ul>
+        {menue.map((m) => <li><a href={m.href}>{m.text}</a></li>)}
+      </ul>
+    </nav>
+    <a class="kopf__nummer" href={telefon.link}>{telefon.anzeige}</a>
+    <details class="handymenue">
+      <summary>Menü</summary>
+      <ul>
+        {menue.map((m) => <li><a href={m.href}>{m.text}</a></li>)}
+      </ul>
+    </details>
+  </div>
+</header>
+
+<main id="inhalt">
+  <section class="start" aria-labelledby="start-titel">
+    <div class="rahmen start__innen">
+      <h1 id="start-titel" class="start__titel">Ein Ansprechpartner für Ihre ganze IT.</h1>
+      <p class="start__text">Rund um Hemsbach komme ich zu Ihnen ins Büro, in die Praxis oder nach Hause. Der Stundensatz steht vorher fest.</p>
+
+      <div class="start__kontakt" data-anrufbereich>
+        <div class="anruf">
+          <a class="knopf" href={telefon.link}>Jetzt anrufen <span class="knopf__nummer">{telefon.anzeige}</span></a>
+          <div class="plakette">
+            <QrCode ziel={telefon.link} klasse="plakette__qr" />
+            <p class="plakette__text">
+              <span class="plakette__hinweis">Mit dem Handy scannen oder wählen</span>
+              <span class="plakette__nummer">{telefon.anzeige}</span>
+            </p>
+          </div>
+        </div>
+        <Kabel art={art} />
+      </div>
+
+      <p class="start__weiter"><a class="textlink" href="#unternehmen">Leistungen ansehen</a></p>
+    </div>
+  </section>
+
+  <section class="leistungen" aria-labelledby="leistungen-titel">
+    <div class="rahmen">
+      <h2 id="leistungen-titel" class="leistungen__titel" data-einblenden>Vom Praxisnetz bis zum Drucker im Wohnzimmer.</h2>
+
+      <div class="leistungen__raster">
+        <article class="feld feld--betrieb" id="unternehmen" data-einblenden>
+          <picture>
+            <source type="image/avif" srcset="/bilder/buero-800.avif 800w, /bilder/buero-1600.avif 1600w" sizes="(min-width: 64em) 44rem, 100vw" />
+            <source type="image/webp" srcset="/bilder/buero-800.webp 800w, /bilder/buero-1600.webp 1600w" sizes="(min-width: 64em) 44rem, 100vw" />
+            <img class="feld__bild" src="/bilder/buero-800.jpg" alt="Kleines Büro mit mehreren Arbeitsplätzen, Bildschirmen und Pflanzen" width="1600" height="1067" loading="lazy" decoding="async" />
+          </picture>
+          <h3 class="feld__titel">Für Büro, Praxis und Betrieb</h3>
+          <p class="feld__text">Sie haben keine eigene IT-Abteilung? Diese Aufgabe übernehme ich, schon ab dem ersten Arbeitsplatz. Die Bestandsaufnahme vor Ort ist für Unternehmen kostenlos.</p>
+          <ul class="feld__liste feld__liste--zwei">
+            {betrieb.map((b) => <li>{b}</li>)}
+          </ul>
+          <p><a class="textlink" href="#">Alles für Unternehmen</a></p>
+        </article>
+
+        <article class="feld feld--privat" id="privat" data-einblenden>
+          <picture>
+            <source type="image/webp" srcset="/bilder/arbeitsplatz-720.webp 720w, /bilder/arbeitsplatz-1200.webp 1200w" sizes="(min-width: 64em) 30rem, 100vw" />
+            <img class="feld__bild" src="/bilder/arbeitsplatz-720.jpg" alt="Laptop, Bildschirm und Maus auf einem Holzschreibtisch" width="1200" height="800" loading="lazy" decoding="async" />
+          </picture>
+          <h3 class="feld__titel">Für Sie zu Hause</h3>
+          <p class="feld__text">Ich erkläre in Ruhe, bis alles sitzt. Abends und am Wochenende gilt derselbe Preis.</p>
+          <ul class="feld__liste">
+            {privat.map((p) => <li>{p}</li>)}
+          </ul>
+          <p><a class="textlink" href="#">Alles für Privatkunden</a></p>
+        </article>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="anrufleiste">
+  <a class="anrufleiste__anruf" href={telefon.link}>Anrufen <span class="nummer">{telefon.anzeige}</span></a>
+  <a class="anrufleiste__wa" href={whatsapp} rel="noopener noreferrer">WhatsApp</a>
+</div>

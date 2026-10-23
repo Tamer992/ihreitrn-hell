@@ -1,0 +1,93 @@
+---
+import Seite from '../layouts/Seite.astro';
+import Kontakt from '../components/Kontakt.astro';
+import Zeichen from '../components/Zeichen.astro';
+---
+<Seite
+  titel="Über mich · Tamer Kumaru · Ihre IT Rhein-Neckar"
+  beschreibung="Tamer Kumaru, gelernter IT-Systemelektroniker mit über 10 Jahren Erfahrung. Ein fester Ansprechpartner für IT vor Ort in Hemsbach, Weinheim und Umgebung."
+  pfad="/ueber-mich"
+>
+  <header class="seitenkopf">
+    <div class="seitenkopf__inhalt">
+      <h1>Tamer Kumaru</h1>
+      <p class="grau seitenkopf__text">Gelernter IT-Systemelektroniker, seit über zehn Jahren in der IT. Wenn Sie anrufen, sprechen Sie mit mir, und ich bin es auch, der danach zu Ihnen kommt.</p>
+    </div>
+    <figure class="portraet">
+      <picture>
+        <source type="image/webp" srcset="/bilder/portraet-480.webp 480w, /bilder/portraet-800.webp 800w" sizes="(min-width: 64em) 26rem, 90vw" />
+        <img src="/bilder/portraet-480.jpg" alt="Tamer Kumaru im blau karierten Hemd" width="480" height="720" decoding="async" fetchpriority="high" />
+      </picture>
+      {/* Bildrechte des Studiofotos sind noch nicht geklärt, Hinweis bleibt bis zur Freigabe sichtbar */}
+      <figcaption class="platzhalter">[FEHLT: Bildrechte Porträt]</figcaption>
+    </figure>
+  </header>
+
+  <section class="abschnitt" aria-labelledby="t-wer">
+    <p class="etikett">Wer zu Ihnen kommt</p>
+    <div class="raster">
+      <div class="raster__links" data-einblenden>
+        <h2 id="t-wer">Ein Einzelunternehmen, ein Ansprechpartner</h2>
+      </div>
+      <div class="raster__rechts raster__rechts--text" data-einblenden>
+        <p class="grau">Ich komme zu Ihnen nach Hause oder in den Betrieb und mache nur, was wir vorher besprochen haben. Was ich repariere, soll lange halten. Deshalb suche ich in Ruhe nach der Ursache.</p>
+        <p class="grau">Termine am Abend und am Wochenende sind bei mir normal.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="t-termin">
+    <p class="etikett">Ein Termin</p>
+    <h2 id="t-termin" class="abschnitt__titel" data-einblenden>So läuft ein Termin ab</h2>
+    <ol class="eintraege eintraege--zwei">
+      <li data-einblenden><h3>Sie rufen an</h3><p class="grau">Zwei Sätze reichen. Oft sage ich Ihnen schon am Telefon, woran es liegt und wann ich Zeit habe.</p></li>
+      <li data-einblenden><h3>Ich sehe es mir an</h3><p class="grau">Ich suche die Ursache und sage Ihnen, was ich vorhabe. Sie entscheiden, was gemacht wird.</p></li>
+      <li data-einblenden><h3>Ich setze es um</h3><p class="grau">Drucker, WLAN und neue Geräte richte ich dort ein, wo sie stehen. In Unternehmen arbeite ich früh morgens, abends oder am Wochenende.</p></li>
+      <li data-einblenden><h3>Ich zeige es Ihnen</h3><p class="grau">Bevor ich gehe, gehen wir alles gemeinsam durch. Taucht später eine Frage auf, rufen Sie an.</p></li>
+    </ol>
+  </section>
+
+  <div class="nacht">
+    <section class="abschnitt" aria-labelledby="t-arbeit">
+      <p class="etikett">So arbeite ich</p>
+      <h2 id="t-arbeit" class="abschnitt__titel" data-einblenden>Was Sie von mir erwarten können</h2>
+      <ul class="eintraege eintraege--zwei">
+        <li data-einblenden>
+          <Zeichen art="gespraech" />
+          <h3>Ich sage es, wenn sich etwas nicht lohnt</h3>
+          <p class="grau">Braucht ein sechs Jahre alter Laptop gleich mehrere neue Teile, erfahren Sie das, bevor Sie Geld hineinstecken.</p>
+        </li>
+        <li data-einblenden>
+          <Zeichen art="rechnung" />
+          <h3>Sie bekommen ein Blatt in die Hand</h3>
+          <p class="grau">Nach größeren Aufträgen schreibe ich auf, was eingerichtet ist, welche Zugänge es gibt und wohin gesichert wird.</p>
+        </li>
+        <li data-einblenden>
+          <Zeichen art="hoerer" />
+          <h3>Nachfragen, so oft Sie wollen</h3>
+          <p class="grau">Rufen Sie zwei Tage später noch einmal an. Ich erkläre es ein weiteres Mal, das ist inklusive.</p>
+        </li>
+        <li data-einblenden>
+          <Zeichen art="schild" />
+          <h3>Ihre Passwörter bleiben bei Ihnen</h3>
+          <p class="grau">Manche brauche ich während des Termins. Ich schreibe sie nirgends auf und speichere sie nicht.</p>
+        </li>
+      </ul>
+    </section>
+  </div>
+
+  <section class="abschnitt" aria-labelledby="t-gebiet">
+    <p class="etikett">Einsatzgebiet</p>
+    <div class="raster">
+      <div class="raster__links" data-einblenden>
+        <h2 id="t-gebiet">Von Hemsbach aus an der Bergstraße unterwegs</h2>
+      </div>
+      <div class="raster__rechts raster__rechts--text" data-einblenden>
+        <p class="grau">Von Weinheim bis Bensheim, dazu Viernheim, Mannheim und der übrige Rhein-Neckar-Kreis. In Hemsbach komme ich ohne Anfahrtspauschale, außerhalb gilt eine Pauschale nach Entfernung.</p>
+        <p><a class="linie" href="/preise">Anfahrt und Preise</a></p>
+      </div>
+    </div>
+  </section>
+
+  <Kontakt titel="Am schnellsten geht es per Telefon." text="Schreiben ist Ihnen lieber? Per WhatsApp oder E-Mail geht es genauso." />
+</Seite>

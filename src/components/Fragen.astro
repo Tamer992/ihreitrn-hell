@@ -1,0 +1,16 @@
+---
+import type { Frage } from '../fragen';
+
+interface Props {
+  liste: Frage[];
+}
+const { liste } = Astro.props;
+---
+<div class="fragen">
+  {liste.map((f) => (
+    <details>
+      <summary>{f.frage}</summary>
+      <div class="grau">{f.antwort.map((a) => <p>{a}</p>)}</div>
+    </details>
+  ))}
+</div>

@@ -1,0 +1,28 @@
+---
+import { menue, telefon } from '../daten';
+
+interface Props {
+  ueberBild?: boolean;
+  aktuell: string;
+}
+const { ueberBild = false, aktuell } = Astro.props;
+---
+<a class="sprung" href="#inhalt">Zum Inhalt springen</a>
+<header class:list={['kopf', { 'kopf--ueber-bild': ueberBild }]}>
+  <a class="marke" href="/" aria-label="Ihre IT Rhein-Neckar, Startseite">
+    <svg class="marke__zeichen" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+      <path d="M30 7 C21 7 20 16 14 16 M30 16 H14 M30 25 C21 25 20 16 14 16" />
+      <path class="marke__eins" d="M14 16 H2" />
+    </svg>
+    <span>Ihre IT Rhein-Neckar</span>
+  </a>
+  <details class="menue">
+    <summary>Menü</summary>
+    <nav aria-label="Hauptmenü">
+      <ul>
+        {menue.map((m) => <li><a href={m.href} aria-current={m.href === aktuell ? 'page' : undefined}>{m.text}</a></li>)}
+      </ul>
+    </nav>
+  </details>
+  <a class="kopf__nummer nummer" href={telefon.link}>{telefon.anzeige}</a>
+</header>

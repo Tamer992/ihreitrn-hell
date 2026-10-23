@@ -1,0 +1,11 @@
+---
+import Entwurf from '../../layouts/Entwurf.astro';
+import Ausschnitt from '../../components/Ausschnitt.astro';
+---
+<Entwurf titel="Test 3D-Kabel · Ihre IT Rhein-Neckar" art="a">
+  <canvas class="szene" aria-hidden="true"></canvas>
+  <Ausschnitt art="a" />
+</Entwurf>
+<script>
+  import '../../scripts/szene.ts';
+</script>
