@@ -10,3 +10,8 @@ scripts/chrom/ausgabe/
 
 # Lokale Liste verbotener Wörter für die Build-Prüfung
 pruefung/verboten.txt
+
+# Render-Rohbilder und Probebilder (die fertige Folge liegt als WebP in public/bilder/chrom/folge)
+scripts/chrom/folge/
+scripts/chrom/test/
+scripts/chrom/test-kabel/

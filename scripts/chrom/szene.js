@@ -1,10 +1,13 @@
 // Rendert das Kabel-Motiv als Chrom-Standbild (nur Werkzeug, wird nicht ausgeliefert).
-// Parameter über die Adresse: ?b=2880&h=1800&art=hero
+// Parameter über die Adresse: ?b=2880&h=1800&art=hero&f=0
+// f läuft von 0 (freigegebenes Standbild) bis 1: Kabel fächern auf, verdrillen sich um die Hülse, Szene kippt leicht.
 import * as THREE from 'three';
 
 const q = new URLSearchParams(location.search);
 const B = Number(q.get('b') ?? 2880), H = Number(q.get('h') ?? 1800);
 const art = q.get('art') ?? 'hero';
+const f = Number(q.get('f') ?? 0);
+const weich = f * f * (3 - 2 * f);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
 renderer.setPixelRatio(1);
@@ -86,25 +89,36 @@ const straenge = art !== 'klein' ? [
 ];
 
 const buendel = [[0, 1], [1.26, 1], [2.51, 1], [3.77, 1], [5.03, 1]];
-straenge.forEach(([v, z, f, istBlau], i) => {
-  const [w, rr] = buendel[i % buendel.length];
+const gruppe = new THREE.Group();
+gruppe.position.set(kn.x, kn.y, 0);
+szene.add(gruppe);
+// Punkte relativ zur Hülse, damit die Gruppe um die Hülse kippen kann
+const P = (x, y, z) => new THREE.Vector3(x - kn.x, y - kn.y, z);
+straenge.forEach(([v, z, dicke, istBlau], i) => {
+  const [w0, rr] = buendel[i % buendel.length];
+  // am Bündel drehen sich die Stränge um die gemeinsame Achse
+  const w = w0 + weich * Math.PI * 0.55;
   const oy = Math.cos(w) * r * 1.35 * rr, oz = Math.sin(w) * r * 1.35 * rr;
+  // rechts fächern die Enden weiter auf und schwingen in die Tiefe
+  const ve = v + (v - 0.45) * weich * 0.8;
+  const ze = z * (1 + weich * 2.2) + (i % 2 ? -1 : 1) * weich * 260;
   const kurve = new THREE.CubicBezierCurve3(
-    new THREE.Vector3(X(1.12), Y(v), z),
-    new THREE.Vector3(X(0.78), Y(v), z * 0.8),
-    new THREE.Vector3(X(0.52), kn.y + oy * 1.5, oz * 2),
-    new THREE.Vector3(kn.x + r * 2.5, kn.y + oy, oz),
+    P(X(1.12), Y(ve), ze),
+    P(X(0.78 - weich * 0.06), Y(v + (v - 0.45) * weich * 0.25), z * 0.8 + oz * weich * 3),
+    P(X(0.52 - weich * 0.08), kn.y + oy * (1.5 + weich * 1.2), oz * (2 + weich * 1.5)),
+    P(kn.x + r * 2.5, kn.y + oy, oz),
   );
-  szene.add(new THREE.Mesh(new THREE.TubeGeometry(kurve, 400, r * f, 64, false), istBlau ? blau : chrom));
+  gruppe.add(new THREE.Mesh(new THREE.TubeGeometry(kurve, 400, r * dicke, 64, false), istBlau ? blau : chrom));
 });
 
 // Hülse und die eine Leitung nach links aus dem Bild
 const huelse = new THREE.Mesh(new THREE.CylinderGeometry(r * 3.2, r * 3.2, r * 4.5, 96, 1), huelseMat);
 huelse.rotation.z = Math.PI / 2;
-huelse.position.set(kn.x, kn.y, 0);
-szene.add(huelse);
-const eins = new THREE.LineCurve3(new THREE.Vector3(X(-0.2), kn.y + r * 0.6, 60), new THREE.Vector3(kn.x - r * 2, kn.y, 0));
-szene.add(new THREE.Mesh(new THREE.TubeGeometry(eins, 20, r * 1.7, 96, false), chrom));
+gruppe.add(huelse);
+const eins = new THREE.LineCurve3(P(X(-0.2), kn.y + r * 0.6, 60), P(kn.x - r * 2, kn.y, 0));
+gruppe.add(new THREE.Mesh(new THREE.TubeGeometry(eins, 20, r * 1.7, 96, false), chrom));
+// die ganze Szene kippt leicht um die Hülse
+gruppe.rotation.set(weich * 0.14, -weich * 0.34, weich * 0.05);
 
 renderer.render(szene, kamera);
 window.fertig = renderer.domElement.toDataURL('image/png');

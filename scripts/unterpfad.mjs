@@ -24,7 +24,7 @@ let anzahl = 0;
 for (const d of dateien('dist')) {
   if (d.endsWith('.html')) {
     let t = fs.readFileSync(d, 'utf8');
-    t = t.replace(/\b(href|src)="([^"]*)"/g, (_, attr, url) => `${attr}="${umschreiben(url)}"`);
+    t = t.replace(/\b(href|src|data-folge)="([^"]*)"/g, (_, attr, url) => `${attr}="${umschreiben(url)}"`);
     t = t.replace(/\bsrcset="([^"]*)"/g, (_, liste) => `srcset="${liste.split(',').map((teil) => {
       const [url, ...rest] = teil.trim().split(/\s+/);
       return [umschreiben(url), ...rest].join(' ');
